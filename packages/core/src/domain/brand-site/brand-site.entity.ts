@@ -12,7 +12,7 @@ export enum OperationStatusEnum {
 	inactive = "inactive",
 }
 
-export interface IBrandSiteData {
+export type BrandSiteData = {
 	id: string;
 	point_id: string;
 	type: BrandTypeEnum;
@@ -21,19 +21,19 @@ export interface IBrandSiteData {
 	created_at: number;
 	updated_at: number;
 	description: string;
-}
+};
 
 export type BrandSiteEntityInput = Omit<
-	IBrandSiteData,
+	BrandSiteData,
 	"id" | "created_at" | "updated_at"
 >;
 
-export type BrandSiteEntityUpdate = Partial<IBrandSiteData>;
+export type BrandSiteEntityUpdate = Partial<BrandSiteData>;
 
 export class BrandSite {
-	private data: IBrandSiteData;
+	private data: BrandSiteData;
 
-	private constructor(data: IBrandSiteData) {
+	private constructor(data: BrandSiteData) {
 		this.data = data;
 	}
 
@@ -45,7 +45,7 @@ export class BrandSite {
 		const id = uuidProvider.generate();
 		const created_at = timestampProvider.generate();
 		const updated_at = timestampProvider.generate();
-		const data: IBrandSiteData = {
+		const data: BrandSiteData = {
 			...input,
 			id,
 			created_at,
@@ -56,7 +56,7 @@ export class BrandSite {
 
 	update(input: BrandSiteEntityUpdate, dateProvider: TimestampProvider) {
 		const updated_at = dateProvider.generate();
-		const data: IBrandSiteData = {
+		const data: BrandSiteData = {
 			...this.data,
 			...input,
 			updated_at,
