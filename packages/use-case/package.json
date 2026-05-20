@@ -1,0 +1,29 @@
+{
+	"name": "@repo/use-case",
+	"version": "1.0.0",
+	"description": "shared use-case interfaces and abstract classes",
+	"keywords": [
+		"use-case",
+		"clean-architecture"
+	],
+	"license": "ISC",
+	"author": "Ítalo de Souza",
+	"type": "module",
+	"main": "./index.ts",
+	"types": "./index.ts",
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./index.ts",
+			"import": "./index.ts",
+			"default": "./index.ts"
+		}
+	},
+	"devDependencies": {
+		"@repo/config.biome": "*",
+		"@repo/config.ts": "*",
+		"typescript": "^6.0.3"
+	}
+}

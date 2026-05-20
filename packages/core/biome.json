@@ -1,0 +1,4 @@
+{
+	"extends": ["@repo/config.biome/backend.json"],
+	"root": false
+}

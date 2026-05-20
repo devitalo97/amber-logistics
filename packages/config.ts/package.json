@@ -1,0 +1,21 @@
+{
+	"name": "@repo/config.ts",
+	"version": "1.0.0",
+	"description": "global ts configuration",
+	"keywords": [
+		"config",
+		"typescript"
+	],
+	"license": "ISC",
+	"author": "Ítalo de Souza",
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		"./backend": "./backend.json",
+		"./frontend": "./frontend.json"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	}
+}

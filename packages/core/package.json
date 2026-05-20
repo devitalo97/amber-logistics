@@ -1,0 +1,29 @@
+{
+  "name": "@repo/core",
+  "version": "1.0.0",
+  "description": "core domain entities and application interfaces",
+  "keywords": [
+    "core",
+    "domain",
+    "clean-architecture"
+  ],
+  "license": "ISC",
+  "author": "Ítalo de Souza",
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "import": "./index.ts",
+      "default": "./index.ts"
+    }
+  },
+  "devDependencies": {
+    "@repo/config.biome": "*",
+    "@repo/config.ts": "*"
+  }
+}
