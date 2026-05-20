@@ -13,12 +13,20 @@
 	"scripts": {
 		"dev": "bun --hot ./src/index.ts",
 		"build": "bun build ./src/index.ts --target=bun --outdir ./dist",
-		"start": "bun run ./dist/index.js"
+		"start": "bun run ./dist/index.js",
+		"db:generate": "drizzle-kit generate --config=src/infrastructure/db/drizzle/drizzle.config.ts",
+		"db:migrate": "drizzle-kit migrate --config=src/infrastructure/db/drizzle/drizzle.config.ts",
+		"db:studio": "drizzle-kit studio --config=src/infrastructure/db/drizzle/drizzle.config.ts"
 	},
 	"devDependencies": {
-		"@repo/use-case": "workspace:*",
 		"@repo/config.biome": "workspace:*",
 		"@repo/config.ts": "workspace:*",
-		"@types/bun": "^1.3.14"
+		"@repo/use-case": "workspace:*",
+		"@types/bun": "^1.3.14",
+		"drizzle-kit": "^0.31.10",
+		"postgres": "^3.4.9"
+	},
+	"dependencies": {
+		"drizzle-orm": "^0.45.2"
 	}
 }
