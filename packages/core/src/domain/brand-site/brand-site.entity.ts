@@ -16,11 +16,11 @@ export type BrandSiteData = {
 	id: string;
 	point_id: string;
 	type: BrandTypeEnum;
-	storage_capacity_cbm: number;
+	storage_capacity_cbm?: number;
 	operational_status: OperationStatusEnum;
-	created_at: number;
-	updated_at: number;
 	description: string;
+	created_at: Date;
+	updated_at: Date;
 };
 
 export type BrandSiteEntityInput = Omit<
@@ -28,7 +28,9 @@ export type BrandSiteEntityInput = Omit<
 	"id" | "created_at" | "updated_at"
 >;
 
-export type BrandSiteEntityUpdate = Partial<BrandSiteData>;
+export type BrandSiteEntityUpdate = Partial<
+	Omit<BrandSiteData, "id" | "created_at" | "updated_at">
+>;
 
 export class BrandSite {
 	private data: BrandSiteData;
@@ -43,8 +45,9 @@ export class BrandSite {
 		timestampProvider: ITimestampProvider,
 	) {
 		const id = uuidProvider.generate();
-		const created_at = timestampProvider.generate();
-		const updated_at = timestampProvider.generate();
+		const created_at = new Date(timestampProvider.generate());
+		const updated_at = new Date(timestampProvider.generate());
+
 		const data: BrandSiteData = {
 			...input,
 			id,
@@ -55,16 +58,21 @@ export class BrandSite {
 	}
 
 	update(input: BrandSiteEntityUpdate, dateProvider: ITimestampProvider) {
-		const updated_at = dateProvider.generate();
+		const updated_at = new Date(dateProvider.generate());
+
+		const cleanInput = Object.fromEntries(
+			Object.entries(input).filter(([_, v]) => v !== undefined),
+		);
+
 		const data: BrandSiteData = {
 			...this.data,
-			...input,
+			...cleanInput,
 			updated_at,
 		};
 		return new BrandSite(data);
 	}
 
-	toObject() {
+	toObject(): BrandSiteData {
 		return {
 			...this.data,
 		};

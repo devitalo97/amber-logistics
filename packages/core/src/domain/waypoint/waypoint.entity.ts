@@ -1,5 +1,5 @@
-import type { TimestampProvider } from "@/application/provider/timestamp-provider.interface.js";
-import type { UUIDProvider } from "@/application/provider/uuid-provider.interface.js";
+import type { ITimestampProvider } from "@/application/provider/timestamp-provider.interface.js";
+import type { IIdProvider } from "@/application/provider/uuid-provider.interface.js";
 
 enum WaypointTypeEnum {
 	supplier = "supplier",
@@ -22,8 +22,8 @@ type WaypointData = {
 	postal_code: string;
 	state: string;
 	time_zone?: string;
-	created_at: number;
-	updated_at: number;
+	created_at: Date;
+	updated_at: Date;
 };
 
 type WaypointEntityInput = Omit<
@@ -31,7 +31,9 @@ type WaypointEntityInput = Omit<
 	"id" | "created_at" | "updated_at"
 >;
 
-type WaypointEntityUpdate = Partial<WaypointData>;
+type WaypointEntityUpdate = Partial<
+	Omit<WaypointData, "id" | "created_at" | "updated_at">
+>;
 
 class Waypoint {
 	private data: WaypointData;
@@ -42,12 +44,14 @@ class Waypoint {
 
 	static create(
 		input: WaypointEntityInput,
-		uuidProvider: UUIDProvider,
-		timestampProvider: TimestampProvider,
+		uuidProvider: IIdProvider,
+		timestampProvider: ITimestampProvider,
 	) {
 		const id = uuidProvider.generate();
-		const created_at = timestampProvider.generate();
-		const updated_at = timestampProvider.generate();
+
+		const created_at = new Date(timestampProvider.generate());
+		const updated_at = new Date(timestampProvider.generate());
+
 		const data: WaypointData = {
 			...input,
 			id,
@@ -57,21 +61,25 @@ class Waypoint {
 		return new Waypoint(data);
 	}
 
-	update(input: WaypointEntityUpdate, dateProvider: TimestampProvider) {
-		const updated_at = dateProvider.generate();
+	update(input: WaypointEntityUpdate, dateProvider: ITimestampProvider) {
+		const updated_at = new Date(dateProvider.generate());
+
+		const cleanInput = Object.fromEntries(
+			Object.entries(input).filter(([_, v]) => v !== undefined),
+		);
+
 		const data: WaypointData = {
 			...this.data,
-			...input,
+			...cleanInput,
 			updated_at,
 		};
 		return new Waypoint(data);
 	}
 
-	toObject() {
+	// Agora o seu toObject apenas expõe os dados puros alinhados com o Drizzle
+	toObject(): WaypointData {
 		return {
 			...this.data,
-			created_at: new Date(this.data.created_at),
-			updated_at: new Date(this.data.updated_at),
 		};
 	}
 }
