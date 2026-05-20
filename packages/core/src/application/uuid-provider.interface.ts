@@ -1,3 +1,5 @@
-export interface UUIDProvider {
-    generate(): string;
+interface UUIDProvider {
+	generate(): string;
 }
+
+export type { UUIDProvider };
