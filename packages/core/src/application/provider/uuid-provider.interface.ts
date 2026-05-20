@@ -1,5 +1,5 @@
-interface UUIDProvider {
+interface IIdProvider {
 	generate(): string;
 }
 
-export type { UUIDProvider };
+export type { IIdProvider };

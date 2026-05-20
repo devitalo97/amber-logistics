@@ -1,5 +1,5 @@
-import type { TimestampProvider } from "@/application/provider/timestamp-provider.interface.js";
-import type { UUIDProvider } from "@/application/provider/uuid-provider.interface.js";
+import type { ITimestampProvider } from "@/application/provider/timestamp-provider.interface";
+import type { IIdProvider } from "@/application/provider/uuid-provider.interface";
 
 export enum BrandTypeEnum {
 	distribution_center = "distribution_center",
@@ -39,8 +39,8 @@ export class BrandSite {
 
 	static create(
 		input: BrandSiteEntityInput,
-		uuidProvider: UUIDProvider,
-		timestampProvider: TimestampProvider,
+		uuidProvider: IIdProvider,
+		timestampProvider: ITimestampProvider,
 	) {
 		const id = uuidProvider.generate();
 		const created_at = timestampProvider.generate();
@@ -54,7 +54,7 @@ export class BrandSite {
 		return new BrandSite(data);
 	}
 
-	update(input: BrandSiteEntityUpdate, dateProvider: TimestampProvider) {
+	update(input: BrandSiteEntityUpdate, dateProvider: ITimestampProvider) {
 		const updated_at = dateProvider.generate();
 		const data: BrandSiteData = {
 			...this.data,
@@ -67,8 +67,6 @@ export class BrandSite {
 	toObject() {
 		return {
 			...this.data,
-			created_at: new Date(this.data.created_at),
-			updated_at: new Date(this.data.updated_at),
 		};
 	}
 }

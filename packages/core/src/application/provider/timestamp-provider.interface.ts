@@ -1,5 +1,5 @@
-interface TimestampProvider {
+interface ITimestampProvider {
 	generate(): number;
 }
 
-export type { TimestampProvider };
+export type { ITimestampProvider };
