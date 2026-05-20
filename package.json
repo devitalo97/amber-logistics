@@ -1,26 +1,31 @@
 {
-  "name": "amber-logistics",
-  "version": "1.0.0",
-  "description": "application focused on logistics operations",
-  "keywords": [
-    "logistics",
-    "operations"
-  ],
-  "license": "ISC",
-  "author": "Ítalo de Souza",
-  "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "packageManager": "npm@11.14.1",
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
-  "devDependencies": {
-    "@biomejs/biome": "^2.4.15",
-    "turbo": "^2.9.14",
-    "typescript": "^6.0.3"
-  }
+	"name": "amber-logistics",
+	"private": true,
+	"version": "1.0.0",
+	"description": "application focused on logistics operations",
+	"keywords": [
+		"logistics",
+		"operations"
+	],
+	"license": "ISC",
+	"author": "Ítalo de Souza",
+	"type": "module",
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"start": "turbo run start",
+		"lint": "turbo run lint",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"check-types": "turbo run check-types"
+	},
+	"packageManager": "npm@11.14.1",
+	"workspaces": [
+		"packages/*",
+		"apps/*"
+	],
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.15",
+		"turbo": "^2.9.14",
+		"typescript": "^6.0.3"
+	}
 }
