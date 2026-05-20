@@ -9,8 +9,6 @@
 	"license": "ISC",
 	"author": "Ítalo de Souza",
 	"type": "module",
-	"main": "./index.ts",
-	"types": "./index.ts",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -22,8 +20,8 @@
 		}
 	},
 	"devDependencies": {
-		"@repo/config.biome": "*",
-		"@repo/config.ts": "*",
+		"@repo/config.biome": "workspace:*",
+		"@repo/config.ts": "workspace:*",
 		"typescript": "^6.0.3"
 	}
 }
