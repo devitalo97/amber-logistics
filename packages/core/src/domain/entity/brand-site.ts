@@ -30,7 +30,7 @@ export type BrandSiteEntityInput = Omit<
 
 export type BrandSiteEntityUpdate = Partial<IBrandSiteData>;
 
-export class BrandSiteEntity {
+export class BrandSite {
 	private data: IBrandSiteData;
 
 	private constructor(data: IBrandSiteData) {
@@ -51,7 +51,7 @@ export class BrandSiteEntity {
 			created_at,
 			updated_at,
 		};
-		return new BrandSiteEntity(data);
+		return new BrandSite(data);
 	}
 
 	update(input: BrandSiteEntityUpdate, dateProvider: TimestampProvider) {
@@ -61,7 +61,7 @@ export class BrandSiteEntity {
 			...input,
 			updated_at,
 		};
-		return new BrandSiteEntity(data);
+		return new BrandSite(data);
 	}
 
 	toObject() {
