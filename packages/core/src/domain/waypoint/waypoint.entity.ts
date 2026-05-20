@@ -1,5 +1,5 @@
-import type { TimestampProvider } from "@/application/timestamp-provider.interface.js";
-import type { UUIDProvider } from "@/application/uuid-provider.interface.js";
+import type { TimestampProvider } from "@/application/provider/timestamp-provider.interface.js";
+import type { UUIDProvider } from "@/application/provider/uuid-provider.interface.js";
 
 enum WaypointTypeEnum {
 	supplier = "supplier",
