@@ -2,8 +2,11 @@
 	"extends": "@repo/config.ts/backend",
 	"compilerOptions": {
 		"rootDir": "./",
-		"outDir": "./dist"
+		"outDir": "./dist",
+		"paths": {
+			"@/*": ["./src/*"]
+		}
 	},
-	"include": ["**/*.ts"],
+	"include": ["./src/**/*"],
 	"exclude": ["node_modules", "dist"]
 }
