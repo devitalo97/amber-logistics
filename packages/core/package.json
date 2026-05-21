@@ -10,9 +10,12 @@
 	"license": "ISC",
 	"author": "Ítalo de Souza",
 	"type": "module",
+	"exports": {
+		".": "./dist/composition-root.js"
+	},
 	"scripts": {
-		"dev": "bun --hot ./src/index.ts",
-		"build": "bun build ./src/index.ts --target=bun --outdir ./dist",
+		"dev": "bun --hot ./src/infrastructure/composition-root.ts",
+		"build": "bun build ./src/infrastructure/composition-root.ts --target=bun --outdir ./dist",
 		"start": "bun run ./dist/index.js",
 		"db:generate": "drizzle-kit generate --config=src/infrastructure/db/drizzle/drizzle.config.ts",
 		"db:migrate": "drizzle-kit migrate --config=src/infrastructure/db/drizzle/drizzle.config.ts",
