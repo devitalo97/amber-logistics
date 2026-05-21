@@ -7,7 +7,7 @@ import { waypointTable as schema } from "@/infrastructure/db/drizzle/schema/wayp
 export class WaypointRepository implements IWaypointRepository {
 	constructor(
 		private readonly db: PostgresJsDatabase<{
-			waypoint: typeof schema;
+			waypointTable: typeof schema;
 		}>,
 	) {}
 

@@ -7,7 +7,7 @@ import { brandSiteTable as schema } from "@/infrastructure/db/drizzle/schema/bra
 export class BrandSiteRepository implements IBrandSiteRepository {
 	constructor(
 		private readonly db: PostgresJsDatabase<{
-			brand_site: typeof schema;
+			brandSiteTable: typeof schema;
 		}>,
 	) {}
 
