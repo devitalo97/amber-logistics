@@ -41,18 +41,20 @@ class BrandSiteCreateUseCase implements IBrandSiteCreateUseCase {
 
 	async execute(input: UseCaseInput): Promise<BrandSiteData> {
 		const { brandSite, waypoint } = input;
-		const brandSiteEntity = BrandSite.create(
-			brandSite,
-			this.idProvider,
-			this.dateProvider,
-			this.brandSiteValidator,
-		);
 		const waypointEntity = Waypoint.create(
 			waypoint,
 			this.idProvider,
 			this.dateProvider,
 			this.waypointValidator,
 		);
+		const brandSiteEntity = BrandSite.create(
+			brandSite,
+			this.idProvider,
+			this.dateProvider,
+			this.brandSiteValidator,
+		);
+		brandSiteEntity.syncWaypoint(waypointEntity.getId(), this.dateProvider);
+
 		await this.uow.transaction(async (context) => {
 			await context.brandSiteRepository.create(brandSiteEntity.toObject());
 			await context.waypointRepository.create(waypointEntity.toObject());

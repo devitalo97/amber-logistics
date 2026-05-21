@@ -75,6 +75,14 @@ class BrandSite {
 		return new BrandSite(data);
 	}
 
+	syncWaypoint(id: string, timestampProvider: ITimestampProvider) {
+		this.data = {
+			...this.data,
+			point_id: id,
+			updated_at: new Date(timestampProvider.generate()),
+		};
+	}
+
 	toObject(): BrandSiteData {
 		return {
 			...this.data,

@@ -78,7 +78,10 @@ class Waypoint {
 		return new Waypoint(data);
 	}
 
-	// Agora o seu toObject apenas expõe os dados puros alinhados com o Drizzle
+	getId(): string {
+		return this.data.id;
+	}
+
 	toObject(): WaypointData {
 		return {
 			...this.data,
