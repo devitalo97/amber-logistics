@@ -1,3 +1,8 @@
+export type { IGeocodingGateway } from "./application/gateway/geocoding.gateway.interface";
+export {
+	type IWaypointSearchUseCase,
+	WaypointSearchUseCase,
+} from "./application/use-case/waypoint.search.use-case";
 export type {
 	BrandSiteData,
 	BrandSiteEntityInput,
