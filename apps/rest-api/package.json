@@ -9,7 +9,8 @@
 		"start": "bun run dist/index.js"
 	},
 	"dependencies": {
-		"@repo/core": "workspace:*"
+		"@repo/core": "workspace:*",
+		"@repo/config.ts": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/bun": "latest"
