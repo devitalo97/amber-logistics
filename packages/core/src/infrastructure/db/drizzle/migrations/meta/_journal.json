@@ -15,6 +15,13 @@
       "when": 1779398223679,
       "tag": "0001_loud_the_initiative",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779399168564,
+      "tag": "0002_wild_sinister_six",
+      "breakpoints": true
     }
   ]
 }
