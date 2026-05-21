@@ -1,5 +1,6 @@
 import type { ITimestampProvider } from "@/application/provider/timestamp-provider.interface";
 import type { IIdProvider } from "@/application/provider/uuid-provider.interface";
+import type { IBrandSiteCreateValidator } from "./brand-site.create.validator.interface";
 
 enum BrandTypeEnum {
 	distribution_center = "distribution_center",
@@ -43,7 +44,9 @@ class BrandSite {
 		input: BrandSiteEntityInput,
 		uuidProvider: IIdProvider,
 		timestampProvider: ITimestampProvider,
+		validator: IBrandSiteCreateValidator,
 	) {
+		validator.validate(input);
 		const id = uuidProvider.generate();
 		const created_at = new Date(timestampProvider.generate());
 		const updated_at = new Date(timestampProvider.generate());

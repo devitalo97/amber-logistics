@@ -1,5 +1,6 @@
 import type { ITimestampProvider } from "@/application/provider/timestamp-provider.interface.js";
 import type { IIdProvider } from "@/application/provider/uuid-provider.interface.js";
+import type { IWaypointCreateValidator } from "./waypoint.create.validator.interface";
 
 enum WaypointTypeEnum {
 	supplier = "supplier",
@@ -46,9 +47,10 @@ class Waypoint {
 		input: WaypointEntityInput,
 		uuidProvider: IIdProvider,
 		timestampProvider: ITimestampProvider,
+		validator: IWaypointCreateValidator,
 	) {
+		validator.validate(input);
 		const id = uuidProvider.generate();
-
 		const created_at = new Date(timestampProvider.generate());
 		const updated_at = new Date(timestampProvider.generate());
 
