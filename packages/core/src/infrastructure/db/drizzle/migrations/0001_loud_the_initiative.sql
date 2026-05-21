@@ -1,0 +1,1 @@
+ALTER TABLE "brand_site" ALTER COLUMN "point_id" DROP NOT NULL;
