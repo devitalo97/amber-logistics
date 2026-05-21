@@ -1,11 +1,13 @@
 import type { IUseCase } from "@repo/use-case";
 import type { IUnitOfWork } from "@/domain/@shared/unit-of-work.repository.interface";
+import type { IBrandSiteCreateValidator } from "@/domain/brand-site/brand-site.create.validator.interface";
 import {
 	BrandSite,
 	type BrandSiteData,
 	type BrandSiteEntityInput,
 } from "@/domain/brand-site/brand-site.entity";
 import type { IBrandSiteRepository } from "@/domain/brand-site/brand-site.repository.interface";
+import type { IWaypointCreateValidator } from "@/domain/waypoint/waypoint.create.validator.interface";
 import {
 	Waypoint,
 	type WaypointEntityInput,
@@ -33,6 +35,8 @@ class BrandSiteCreateUseCase implements IBrandSiteCreateUseCase {
 		private readonly uow: IBrandSiteAndWaypointUow,
 		private readonly dateProvider: ITimestampProvider,
 		private readonly idProvider: IIdProvider,
+		private readonly brandSiteValidator: IBrandSiteCreateValidator,
+		private readonly waypointValidator: IWaypointCreateValidator,
 	) {}
 
 	async execute(input: UseCaseInput): Promise<BrandSiteData> {
@@ -41,11 +45,13 @@ class BrandSiteCreateUseCase implements IBrandSiteCreateUseCase {
 			brandSite,
 			this.idProvider,
 			this.dateProvider,
+			this.brandSiteValidator,
 		);
 		const waypointEntity = Waypoint.create(
 			waypoint,
 			this.idProvider,
 			this.dateProvider,
+			this.waypointValidator,
 		);
 		await this.uow.transaction(async (context) => {
 			await context.brandSiteRepository.create(brandSiteEntity.toObject());
