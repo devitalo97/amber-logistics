@@ -7,17 +7,17 @@ import {
 
 class WaypointCreateValidator implements IWaypointCreateValidator {
 	private schema = z.object({
-		type: z.enum(WaypointTypeEnum),
-		description: z.string(),
+		type: z.nativeEnum(WaypointTypeEnum).nullable().optional(),
+		description: z.string().nullable().optional(),
 		latitude: z.number(),
 		longitude: z.number(),
-		country_code: z.string(),
-		city: z.string(),
-		address_line_1: z.string(),
-		address_line_2: z.string().optional(),
-		postal_code: z.string(),
-		state: z.string(),
-		time_zone: z.string().optional(),
+		country_code: z.string().nullable().optional(),
+		city: z.string().nullable().optional(),
+		address_line_1: z.string().nullable().optional(),
+		address_line_2: z.string().nullable().optional(),
+		postal_code: z.string().nullable().optional(),
+		state: z.string().nullable().optional(),
+		time_zone: z.string().nullable().optional(),
 	});
 	validate(input: WaypointEntityInput): void {
 		this.schema.parse(input);

@@ -65,22 +65,22 @@ export class NominatimGeocodingGateway implements IGeocodingGateway {
 
 			return results.map((item) => {
 				const address = item.address;
-				const city = address?.city || address?.town || address?.village || address?.county || "";
-				const countryCode = address?.country_code ? address.country_code.toUpperCase() : "";
+				const city = address?.city || address?.town || address?.village || address?.county || null;
+				const countryCode = address?.country_code ? address.country_code.toUpperCase() : null;
 
 				return {
 					id: crypto.randomUUID(),
-					description: item.display_name,
-					type: WaypointTypeEnum.supplier,
+					description: item.display_name || null,
+					type: null,
 					latitude: Number.parseFloat(item.lat),
 					longitude: Number.parseFloat(item.lon),
 					country_code: countryCode,
 					city: city,
-					address_line_1: address?.road || item.display_name || "",
-					address_line_2: address?.suburb || undefined,
-					postal_code: address?.postcode || "",
-					state: address?.state || "",
-					time_zone: undefined,
+					address_line_1: address?.road || item.display_name || null,
+					address_line_2: address?.suburb || null,
+					postal_code: address?.postcode || null,
+					state: address?.state || null,
+					time_zone: null,
 					created_at: new Date(),
 					updated_at: new Date(),
 				};

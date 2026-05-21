@@ -12,17 +12,17 @@ enum WaypointTypeEnum {
 
 type WaypointData = {
 	id: string;
-	description: string;
-	type: WaypointTypeEnum;
+	description: string | null;
+	type: WaypointTypeEnum | null;
 	latitude: number;
 	longitude: number;
-	country_code: string;
-	city: string;
-	address_line_1: string;
-	address_line_2?: string;
-	postal_code: string;
-	state: string;
-	time_zone?: string;
+	country_code: string | null;
+	city: string | null;
+	address_line_1: string | null;
+	address_line_2?: string | null;
+	postal_code: string | null;
+	state: string | null;
+	time_zone?: string | null;
 	created_at: Date;
 	updated_at: Date;
 };
