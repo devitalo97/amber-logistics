@@ -9,7 +9,7 @@ import {
 class BrandSiteCreateValidator implements IBrandSiteCreateValidator {
 	private schema = z.object({
 		type: z.enum(BrandTypeEnum),
-		point_id: z.uuid(),
+		point_id: z.uuid().optional(),
 		storage_capacity_cbm: z.number().optional(),
 		operational_status: z.enum(OperationStatusEnum),
 		description: z.string(),

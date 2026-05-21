@@ -15,7 +15,7 @@ enum OperationStatusEnum {
 
 type BrandSiteData = {
 	id: string;
-	point_id: string;
+	point_id?: string | undefined;
 	type: BrandTypeEnum;
 	storage_capacity_cbm?: number;
 	operational_status: OperationStatusEnum;

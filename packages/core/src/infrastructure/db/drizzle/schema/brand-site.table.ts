@@ -10,11 +10,9 @@ import { waypointTable } from "./waypoint.table";
 
 export const brandSiteTable = pgTable("brand_site", {
 	id: uuid().primaryKey().defaultRandom(),
-	point_id: uuid()
-		.notNull()
-		.references(() => waypointTable.id, {
-			onDelete: "cascade",
-		}),
+	point_id: uuid().references(() => waypointTable.id, {
+		onDelete: "cascade",
+	}),
 	type: brandSiteTypeEnum().notNull(),
 
 	storage_capacity_cbm: decimal({ precision: 10, scale: 2 }).$type<number>(),
