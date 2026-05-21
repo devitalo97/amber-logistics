@@ -1,18 +1,18 @@
 import type { ITimestampProvider } from "@/application/provider/timestamp-provider.interface";
 import type { IIdProvider } from "@/application/provider/uuid-provider.interface";
 
-export enum BrandTypeEnum {
+enum BrandTypeEnum {
 	distribution_center = "distribution_center",
 	warehouse = "warehouse",
 	retail_store = "retail_store",
 }
 
-export enum OperationStatusEnum {
+enum OperationStatusEnum {
 	active = "active",
 	inactive = "inactive",
 }
 
-export type BrandSiteData = {
+type BrandSiteData = {
 	id: string;
 	point_id: string;
 	type: BrandTypeEnum;
@@ -23,16 +23,16 @@ export type BrandSiteData = {
 	updated_at: Date;
 };
 
-export type BrandSiteEntityInput = Omit<
+type BrandSiteEntityInput = Omit<
 	BrandSiteData,
 	"id" | "created_at" | "updated_at"
 >;
 
-export type BrandSiteEntityUpdate = Partial<
+type BrandSiteEntityUpdate = Partial<
 	Omit<BrandSiteData, "id" | "created_at" | "updated_at">
 >;
 
-export class BrandSite {
+class BrandSite {
 	private data: BrandSiteData;
 
 	private constructor(data: BrandSiteData) {
@@ -78,3 +78,5 @@ export class BrandSite {
 		};
 	}
 }
+
+export { BrandSite, type BrandSiteData, type BrandSiteEntityInput };

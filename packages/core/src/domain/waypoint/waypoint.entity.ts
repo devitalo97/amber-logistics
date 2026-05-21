@@ -84,4 +84,4 @@ class Waypoint {
 	}
 }
 
-export { Waypoint, type WaypointData, WaypointTypeEnum };
+export { Waypoint, type WaypointData, type WaypointEntityInput };
