@@ -5,6 +5,7 @@
 		"outDir": "./dist",
 		"noEmit": false,
 		"emitDeclarationOnly": true,
+		"types": ["bun"],
 		"paths": {
 			"@/*": ["./src/*"]
 		}
