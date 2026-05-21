@@ -82,4 +82,10 @@ class BrandSite {
 	}
 }
 
-export { BrandSite, type BrandSiteData, type BrandSiteEntityInput };
+export {
+	BrandSite,
+	type BrandSiteData,
+	type BrandSiteEntityInput,
+	BrandTypeEnum,
+	OperationStatusEnum,
+};
