@@ -1,0 +1,17 @@
+{
+	"name": "rest-api",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "bun run --hot ./index.ts",
+		"build": "bun build ./src/index.ts --target=bun --outdir ./dist",
+		"start": "bun run dist/index.js"
+	},
+	"dependencies": {
+		"@repo/core": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	}
+}
