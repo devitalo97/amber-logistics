@@ -19,10 +19,10 @@ import {
 	TrendingUpIcon,
 } from "lucide-react";
 import * as React from "react";
-import { NavSecondary } from "#/components/nav-secundary";
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { NavMain } from "#/components/sidebar/nav-main";
+import { NavSecondary } from "#/components/sidebar/nav-secundary";
+import { NavUser } from "#/components/sidebar/nav-user";
+import { TeamSwitcher } from "#/components/sidebar/team-switcher";
 import {
 	Sidebar,
 	SidebarContent,
