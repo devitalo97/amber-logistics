@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import type { MapPoint } from "./brand-site.create.map.form";
 import {
 	type FullFormData,
 	fullFormSchema,
@@ -9,11 +9,10 @@ import {
 } from "./brand-site.create.schema.form";
 
 export interface BrandSiteFormProps {
-	onCoordinatesChange: (lat: number | null, lng: number | null) => void;
+	handlePointChange: (point: MapPoint) => void;
 }
 
-export const useBrandSite = ({ onCoordinatesChange }: BrandSiteFormProps) => {
-	const [currentStep, setCurrentStep] = useState(1);
+export const useBrandSite = ({ handlePointChange }: BrandSiteFormProps) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const form = useForm<FullFormData>({
@@ -37,49 +36,6 @@ export const useBrandSite = ({ onCoordinatesChange }: BrandSiteFormProps) => {
 		mode: "onChange",
 	});
 
-	const validateCurrentStep = async () => {
-		let fieldsToValidate: (keyof FullFormData)[] = [];
-
-		switch (currentStep) {
-			case 1:
-				fieldsToValidate = [
-					"waypoint_description",
-					"country_code",
-					"postal_code",
-					"state",
-					"city",
-					"address_line_1",
-				];
-				break;
-			case 2:
-				fieldsToValidate = ["latitude", "longitude"];
-				break;
-			case 3:
-				fieldsToValidate = [
-					"brand_type",
-					"operational_status",
-					"brand_site_description",
-				];
-				break;
-		}
-
-		const result = await form.trigger(fieldsToValidate);
-		return result;
-	};
-
-	const handleNext = async () => {
-		const isValid = await validateCurrentStep();
-		if (isValid && currentStep < 3) {
-			setCurrentStep((prev) => prev + 1);
-		}
-	};
-
-	const handleBack = () => {
-		if (currentStep > 1) {
-			setCurrentStep((prev) => prev - 1);
-		}
-	};
-
 	const onSubmit = async (data: FullFormData) => {
 		setIsSubmitting(true);
 		try {
@@ -93,36 +49,42 @@ export const useBrandSite = ({ onCoordinatesChange }: BrandSiteFormProps) => {
 		}
 	};
 
-	// Watch latitude and longitude for map updates
+	const onCancel = () => {
+		form.reset();
+	};
+
+	// Monitora latitude e longitude para atualizações no mapa
 	const watchLatitude = form.watch("latitude");
 	const watchLongitude = form.watch("longitude");
 
 	const handleLatitudeChange = (value: string) => {
 		const numValue = parseFloat(value);
 		if (!Number.isNaN(numValue)) {
-			onCoordinatesChange(numValue, watchLongitude || null);
+			handlePointChange({ lat: numValue, lng: watchLongitude || null });
 		} else {
-			onCoordinatesChange(null, watchLongitude || null);
+			handlePointChange({ lat: null, lng: watchLongitude || null });
 		}
 	};
 
 	const handleLongitudeChange = (value: string) => {
 		const numValue = parseFloat(value);
 		if (!Number.isNaN(numValue)) {
-			onCoordinatesChange(watchLatitude || null, numValue);
+			handlePointChange({ lat: watchLatitude || null, lng: numValue });
 		} else {
-			onCoordinatesChange(watchLatitude || null, null);
+			handlePointChange({ lat: watchLatitude || null, lng: null });
 		}
 	};
 
+	const watchDescription = form.watch("brand_site_description");
+	const descriptionLength = watchDescription?.length || 0;
+
 	return {
+		form,
+		onSubmit,
+		onCancel,
+		isSubmitting,
 		handleLatitudeChange,
 		handleLongitudeChange,
-		isSubmitting,
-		handleNext,
-		handleBack,
-		onSubmit,
-		form,
-		currentStep,
+		descriptionLength,
 	};
 };
