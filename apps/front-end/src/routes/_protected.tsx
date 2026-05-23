@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { ProtectedLayout } from "#/components/layout/protected.layout";
 import { getSession } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/_protected")({
@@ -14,5 +15,9 @@ export const Route = createFileRoute("/_protected")({
 
 		return { user: session.user };
 	},
-	component: () => <Outlet />,
+	component: () => (
+		<ProtectedLayout>
+			<Outlet />
+		</ProtectedLayout>
+	),
 });
