@@ -1,6 +1,5 @@
-import { redirect } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "#/components/ui/avatar";
 import { Button } from "#/components/ui/button";
 import {
 	Card,
@@ -15,7 +14,8 @@ import { Label } from "#/components/ui/label";
 import { authClient } from "#/lib/auth-client";
 
 export function LoginForm() {
-	const { data: session, isPending } = authClient.useSession();
+	const navigate = useNavigate();
+	const { isPending } = authClient.useSession();
 	const [isSignUp, setIsSignUp] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -27,73 +27,6 @@ export function LoginForm() {
 		return (
 			<div className="flex items-center justify-center py-10">
 				<div className="h-5 w-5 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-900 dark:border-neutral-800 dark:border-t-neutral-100" />
-			</div>
-		);
-	}
-
-	if (session?.user) {
-		return (
-			<div className="flex justify-center py-10 px-4">
-				<Card className="w-full max-w-md">
-					<CardHeader className="space-y-1">
-						<CardTitle className="text-lg font-semibold leading-none tracking-tight">
-							Welcome back
-						</CardTitle>
-						<CardDescription className="text-sm">
-							You're signed in as {session.user.email}
-						</CardDescription>
-					</CardHeader>
-
-					<CardContent className="space-y-6">
-						<div className="flex items-center gap-3">
-							<Avatar size="lg">
-								{session.user.image ? (
-									<AvatarImage
-										src={session.user.image}
-										alt={session.user.name || "User Avatar"}
-									/>
-								) : null}
-								<AvatarFallback>
-									{session.user.name?.charAt(0).toUpperCase() || "U"}
-								</AvatarFallback>
-							</Avatar>
-							<div className="flex-1 min-w-0">
-								<p className="text-sm font-medium truncate">
-									{session.user.name}
-								</p>
-								<p className="text-xs text-muted-foreground truncate">
-									{session.user.email}
-								</p>
-							</div>
-						</div>
-
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => {
-								void authClient.signOut();
-							}}
-							className="w-full h-9"
-						>
-							Sign out
-						</Button>
-					</CardContent>
-
-					<CardFooter className="justify-center border-t pt-4">
-						<p className="text-xs text-center text-muted-foreground">
-							Built with{" "}
-							<a
-								href="https://better-auth.com"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="font-medium hover:text-foreground underline underline-offset-4"
-							>
-								BETTER-AUTH
-							</a>
-							.
-						</p>
-					</CardFooter>
-				</Card>
 			</div>
 		);
 	}
@@ -113,7 +46,7 @@ export function LoginForm() {
 					},
 					{
 						onSuccess: () => {
-							redirect({ to: "/dashboard" });
+							void navigate({ to: "/dashboard" });
 						},
 					},
 				);
@@ -121,10 +54,17 @@ export function LoginForm() {
 					setError(result.error.message || "Sign up failed");
 				}
 			} else {
-				const result = await authClient.signIn.email({
-					email,
-					password,
-				});
+				const result = await authClient.signIn.email(
+					{
+						email,
+						password,
+					},
+					{
+						onSuccess: () => {
+							void navigate({ to: "/dashboard" });
+						},
+					},
+				);
 				if (result.error) {
 					setError(result.error.message || "Sign in failed");
 				}
