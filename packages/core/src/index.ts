@@ -12,3 +12,5 @@ export type {
 	WaypointEntityInput,
 } from "./domain/waypoint/waypoint.entity";
 export { CompositionRoot } from "./infrastructure/composition-root";
+export * as schema from "./infrastructure/db/drizzle/schema";
+
