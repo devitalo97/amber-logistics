@@ -1,6 +1,7 @@
 import { redirect } from "@tanstack/react-router";
 import { useState } from "react";
-import { authClient } from "#/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "#/components/ui/avatar";
+import { Button } from "#/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -9,10 +10,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "#/components/ui/card";
-import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "#/components/ui/avatar";
+import { authClient } from "#/lib/auth-client";
 
 export function LoginForm() {
 	const { data: session, isPending } = authClient.useSession();
@@ -48,7 +48,10 @@ export function LoginForm() {
 						<div className="flex items-center gap-3">
 							<Avatar size="lg">
 								{session.user.image ? (
-									<AvatarImage src={session.user.image} alt={session.user.name || "User Avatar"} />
+									<AvatarImage
+										src={session.user.image}
+										alt={session.user.name || "User Avatar"}
+									/>
 								) : null}
 								<AvatarFallback>
 									{session.user.name?.charAt(0).toUpperCase() || "U"}
@@ -118,17 +121,10 @@ export function LoginForm() {
 					setError(result.error.message || "Sign up failed");
 				}
 			} else {
-				const result = await authClient.signIn.email(
-					{
-						email,
-						password,
-					},
-					{
-						onSuccess: () => {
-							redirect({ to: "/dashboard" });
-						},
-					},
-				);
+				const result = await authClient.signIn.email({
+					email,
+					password,
+				});
 				if (result.error) {
 					setError(result.error.message || "Sign in failed");
 				}
@@ -198,7 +194,11 @@ export function LoginForm() {
 							</div>
 						)}
 
-						<Button type="submit" disabled={loading} className="w-full h-9 mt-2">
+						<Button
+							type="submit"
+							disabled={loading}
+							className="w-full h-9 mt-2"
+						>
 							{loading ? (
 								<span className="flex items-center justify-center gap-2">
 									<span className="h-4 w-4 animate-spin rounded-full border-2 border-neutral-400 border-t-white dark:border-neutral-600 dark:border-t-neutral-900" />
