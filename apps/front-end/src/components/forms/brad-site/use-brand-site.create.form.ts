@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { type Resolver, useForm } from "react-hook-form";
 import type { MapPoint } from "./brand-site.create.map.form";
 import {
 	type FullFormData,
@@ -16,7 +16,7 @@ export const useBrandSite = ({ handlePointChange }: BrandSiteFormProps) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const form = useForm<FullFormData>({
-		resolver: zodResolver(fullFormSchema),
+		resolver: zodResolver(fullFormSchema) as Resolver<FullFormData>,
 		defaultValues: {
 			waypoint_description: "",
 			country_code: "",
