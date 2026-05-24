@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LogisticsSimulatorForm } from "#/components/forms/logistics/logistics-simulator.form";
+import { LogisticsSimulatorPage } from "#/pages/logistics-simulator.page";
 
 export const Route = createFileRoute("/_protected/logistics/simulator")({
-	component: LogisticsSimulatorForm,
+	component: LogisticsSimulatorPage,
 });
