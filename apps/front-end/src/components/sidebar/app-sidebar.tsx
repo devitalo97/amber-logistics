@@ -1,22 +1,20 @@
 "use client";
 
 import {
-	AtomIcon,
-	AudioLinesIcon,
-	CheckSquareIcon,
-	CompassIcon,
-	FactoryIcon,
-	FileCheckCornerIcon,
-	FileTextIcon,
-	GalleryVerticalEndIcon,
-	InboxIcon,
-	LayersIcon,
-	SettingsIcon,
-	ShipIcon,
-	SparklesIcon,
-	SunIcon,
-	TerminalIcon,
-	TrendingUpIcon,
+	Atom,
+	CheckSquare,
+	Compass,
+	Factory,
+	FileCheckCorner,
+	FileText,
+	Inbox,
+	Layers,
+	Package,
+	Settings,
+	Ship,
+	Sparkles,
+	Sun,
+	TrendingUp,
 } from "lucide-react";
 import * as React from "react";
 import { NavLogo } from "#/components/sidebar/nav-logo";
@@ -32,79 +30,57 @@ import {
 } from "@/components/ui/sidebar";
 
 const data = {
-	user: {
-		name: "Dom Oliver",
-		email: "dom@amber.ai",
-		avatar: "/avatars/shadcn.jpg",
-	},
-	teams: [
-		{
-			name: "Acme Inc",
-			logo: <GalleryVerticalEndIcon />,
-			plan: "Enterprise",
-		},
-		{
-			name: "Acme Corp.",
-			logo: <AudioLinesIcon />,
-			plan: "Startup",
-		},
-		{
-			name: "Evil Corp.",
-			logo: <TerminalIcon />,
-			plan: "Free",
-		},
-	],
 	navMain: [
 		{
 			title: "Inbox",
 			url: "/inbox",
-			icon: <InboxIcon />,
+			icon: Inbox,
 		},
 		{
 			title: "Ask Amber",
 			url: "/ask-amber",
-			icon: <SparklesIcon />,
-			isActive: true, // Marcado como o item ativo/selecionado na imagem
+			icon: Sparkles,
+			isActive: true,
 		},
 		{
 			title: "Discovery",
 			url: "/discovery",
-			icon: <CompassIcon />,
+			icon: Compass,
 		},
 		{
 			title: "My work",
 			url: "/my-work",
-			icon: <CheckSquareIcon />,
+			icon: CheckSquare,
 		},
 		{
 			title: "Products",
 			url: "/products",
-			icon: <LayersIcon />,
+			icon: Layers,
 		},
 		{
 			title: "Suppliers",
 			url: "/suppliers",
-			icon: <FactoryIcon />,
+			icon: Factory,
 		},
 		{
 			title: "Protos",
 			url: "/protos",
-			icon: <AtomIcon />,
+			icon: Atom,
 		},
 		{
 			title: "RFQs",
 			url: "/rfqs",
-			icon: <FileTextIcon />,
+			icon: FileText,
 		},
 		{
 			title: "Orders",
 			url: "/orders",
-			icon: <FileCheckCornerIcon />,
+			icon: FileCheckCorner,
 		},
 		{
 			title: "Forecast",
 			url: "/forecast",
-			icon: <TrendingUpIcon />,
+			icon: TrendingUp,
 		},
 		{
 			title: "Shipments",
@@ -135,12 +111,12 @@ const data = {
 		{
 			name: "Settings",
 			url: "#",
-			icon: <SettingsIcon />,
+			icon: Settings,
 		},
 		{
 			name: "Light mode",
 			url: "#",
-			icon: <SunIcon />,
+			icon: Sun,
 		},
 	],
 };
