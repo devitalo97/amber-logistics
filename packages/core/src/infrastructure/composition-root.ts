@@ -14,6 +14,8 @@ import { GenerateRoutesUseCase } from "@/application/use-case/generate-routes.us
 import { GenerateScenariosUseCase } from "@/application/use-case/generate-scenarios.use-case";
 import { SimulateLogisticsScenariosUseCase } from "@/application/use-case/simulate-logistics-scenarios.use-case";
 import { WaypointSearchUseCase } from "@/application/use-case/waypoint.search.use-case";
+import { ListProductsUseCase } from "@/application/use-case/product.list.use-case";
+import { ListWaypointsUseCase } from "@/application/use-case/waypoint.list.use-case";
 import type * as schemas from "./db/drizzle/schema";
 
 type Config = {
@@ -75,10 +77,15 @@ class CompositionRoot {
 				generateScenariosUseCase,
 			);
 
+		const listProductsUseCase = new ListProductsUseCase(productRepository);
+		const listWaypointsUseCase = new ListWaypointsUseCase(waypointRepository);
+
 		return {
 			brandSiteCreateUseCase,
 			waypointSearchUseCase,
 			simulateLogisticsScenariosUseCase,
+			listProductsUseCase,
+			listWaypointsUseCase,
 		};
 	}
 }
