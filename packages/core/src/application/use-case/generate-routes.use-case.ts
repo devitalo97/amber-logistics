@@ -1,6 +1,6 @@
 import type { IUseCase } from "@repo/use-case";
 import type { WaypointData } from "@/domain/waypoint/waypoint.entity";
-import type { TransportModeType } from "../gateway/carrier-marketplace.gateway.interface";
+import { TransportModeType } from "../gateway/carrier-marketplace.gateway.interface";
 
 export interface Leg {
 	sequence: number;
@@ -62,19 +62,19 @@ export class GenerateRoutesUseCase implements IGenerateRoutesUseCase {
 				legs: [
 					{
 						sequence: 1,
-						mode: "sea",
+						mode: TransportModeType.sea,
 						origin: portOrigin,
 						destination: portDest,
 					},
 					{
 						sequence: 2,
-						mode: "land",
+						mode: TransportModeType.land,
 						origin: portDest,
 						destination: railTerminal,
 					},
 					{
 						sequence: 3,
-						mode: "land",
+						mode: TransportModeType.land,
 						origin: railTerminal,
 						destination: destination,
 					},
@@ -86,13 +86,13 @@ export class GenerateRoutesUseCase implements IGenerateRoutesUseCase {
 				legs: [
 					{
 						sequence: 1,
-						mode: "sea",
+						mode: TransportModeType.sea,
 						origin: portOrigin,
 						destination: portDest,
 					},
 					{
 						sequence: 2,
-						mode: "land",
+						mode: TransportModeType.land,
 						origin: portDest,
 						destination: destination,
 					},
@@ -104,13 +104,13 @@ export class GenerateRoutesUseCase implements IGenerateRoutesUseCase {
 				legs: [
 					{
 						sequence: 1,
-						mode: "air",
+						mode: TransportModeType.air,
 						origin: airportOrigin,
 						destination: airportDest,
 					},
 					{
 						sequence: 2,
-						mode: "land",
+						mode: TransportModeType.land,
 						origin: airportDest,
 						destination: destination,
 					},

@@ -1,6 +1,10 @@
 import type { WaypointData } from "@/domain/waypoint/waypoint.entity";
 
-export type TransportModeType = "air" | "sea" | "land";
+export enum TransportModeType {
+	air = "air",
+	sea = "sea",
+	land = "land",
+}
 
 export interface CarrierQuoteInput {
 	origin: WaypointData;
