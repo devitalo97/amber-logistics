@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { WaypointData } from "@/domain/waypoint/waypoint.entity";
 import type { IWaypointRepository } from "@/domain/waypoint/waypoint.repository.interface";
@@ -23,7 +23,7 @@ export class WaypointRepository implements IWaypointRepository {
 		await this.db.delete(schema).where(eq(schema.id, id));
 	}
 
-	async findOne(id: string): Promise<WaypointData | null> {
+	async findOneById(id: string): Promise<WaypointData | null> {
 		const rows = await this.db.select().from(schema).where(eq(schema.id, id));
 
 		if (!rows || rows.length === 0) {
@@ -31,5 +31,18 @@ export class WaypointRepository implements IWaypointRepository {
 		}
 
 		return rows[0] as WaypointData;
+	}
+
+	async findManyById(ids: string[]): Promise<WaypointData[]> {
+		const rows = await this.db
+			.select()
+			.from(schema)
+			.where(inArray(schema.id, ids));
+
+		if (!rows || rows.length === 0) {
+			return [];
+		}
+
+		return rows as WaypointData[];
 	}
 }

@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { BrandSiteData } from "@/domain/brand-site/brand-site.entity";
 import type { IBrandSiteRepository } from "@/domain/brand-site/brand-site.repository.interface";
@@ -23,7 +23,7 @@ export class BrandSiteRepository implements IBrandSiteRepository {
 		await this.db.delete(schema).where(eq(schema.id, id));
 	}
 
-	async findOne(id: string): Promise<BrandSiteData | null> {
+	async findOneById(id: string): Promise<BrandSiteData | null> {
 		const rows = await this.db.select().from(schema).where(eq(schema.id, id));
 
 		if (!rows || rows.length === 0) {
@@ -31,5 +31,18 @@ export class BrandSiteRepository implements IBrandSiteRepository {
 		}
 
 		return rows[0] as BrandSiteData;
+	}
+
+	async findManyById(ids: string[]): Promise<BrandSiteData[]> {
+		const rows = await this.db
+			.select()
+			.from(schema)
+			.where(inArray(schema.id, ids));
+
+		if (!rows || rows.length === 0) {
+			return [];
+		}
+
+		return rows as BrandSiteData[];
 	}
 }

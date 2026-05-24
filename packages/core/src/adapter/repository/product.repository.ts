@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { ProductData } from "@/domain/product/product.entity";
 import type { IProductRepository } from "@/domain/product/product.repository.interface";
@@ -23,7 +23,7 @@ export class ProductRepository implements IProductRepository {
 		await this.db.delete(schema).where(eq(schema.id, id));
 	}
 
-	async findOne(id: string): Promise<ProductData | null> {
+	async findOneById(id: string): Promise<ProductData | null> {
 		const rows = await this.db.select().from(schema).where(eq(schema.id, id));
 
 		if (!rows || rows.length === 0) {
@@ -31,5 +31,18 @@ export class ProductRepository implements IProductRepository {
 		}
 
 		return rows[0] as ProductData;
+	}
+
+	async findManyById(ids: string[]): Promise<ProductData[]> {
+		const rows = await this.db
+			.select()
+			.from(schema)
+			.where(inArray(schema.id, ids));
+
+		if (!rows || rows.length === 0) {
+			return [];
+		}
+
+		return rows as ProductData[];
 	}
 }
