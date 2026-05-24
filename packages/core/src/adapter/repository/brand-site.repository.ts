@@ -45,4 +45,8 @@ export class BrandSiteRepository implements IBrandSiteRepository {
 
 		return rows as BrandSiteData[];
 	}
+	async findAll(): Promise<BrandSiteData[]> {
+		const rows = await this.db.select().from(schema);
+		return rows as BrandSiteData[];
+	}
 }

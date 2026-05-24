@@ -4,6 +4,7 @@ interface IRepository<T> {
 	delete(id: string): Promise<void>;
 	findOneById(id: string): Promise<T | null>;
 	findManyById(ids: string[]): Promise<T[]>;
+	findAll(): Promise<T[]>;
 }
 
 export type { IRepository };

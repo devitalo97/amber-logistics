@@ -45,4 +45,9 @@ export class ProductRepository implements IProductRepository {
 
 		return rows as ProductData[];
 	}
+
+	async findAll(): Promise<ProductData[]> {
+		const rows = await this.db.select().from(schema);
+		return rows as ProductData[];
+	}
 }
