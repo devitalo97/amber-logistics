@@ -19,10 +19,10 @@ import {
 	TrendingUpIcon,
 } from "lucide-react";
 import * as React from "react";
+import { NavLogo } from "#/components/sidebar/nav-logo";
 import { NavMain } from "#/components/sidebar/nav-main";
 import { NavSecondary } from "#/components/sidebar/nav-secundary";
 import { NavUser } from "#/components/sidebar/nav-user";
-import { TeamSwitcher } from "#/components/sidebar/team-switcher";
 import {
 	Sidebar,
 	SidebarContent,
@@ -31,7 +31,6 @@ import {
 	SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
 const data = {
 	user: {
 		name: "Dom Oliver",
@@ -131,7 +130,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	return (
 		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
-				<TeamSwitcher teams={data.teams} />
+				<NavLogo />
 			</SidebarHeader>
 			<SidebarContent>
 				<NavMain items={data.navMain} />
