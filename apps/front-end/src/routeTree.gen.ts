@@ -14,6 +14,7 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ProtectedLogisticsSimulatorRouteImport } from './routes/_protected/logistics/simulator'
 import { Route as ProtectedBrandSiteCreateRouteImport } from './routes/_protected/brand-site/create'
 
 const LoginRoute = LoginRouteImport.update({
@@ -40,6 +41,12 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProtectedLogisticsSimulatorRoute =
+  ProtectedLogisticsSimulatorRouteImport.update({
+    id: '/logistics/simulator',
+    path: '/logistics/simulator',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 const ProtectedBrandSiteCreateRoute =
   ProtectedBrandSiteCreateRouteImport.update({
     id: '/brand-site/create',
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/brand-site/create': typeof ProtectedBrandSiteCreateRoute
+  '/logistics/simulator': typeof ProtectedLogisticsSimulatorRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
@@ -59,6 +67,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/brand-site/create': typeof ProtectedBrandSiteCreateRoute
+  '/logistics/simulator': typeof ProtectedLogisticsSimulatorRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
@@ -68,6 +77,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/brand-site/create': typeof ProtectedBrandSiteCreateRoute
+  '/_protected/logistics/simulator': typeof ProtectedLogisticsSimulatorRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
@@ -77,9 +87,16 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard'
     | '/brand-site/create'
+    | '/logistics/simulator'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/dashboard' | '/brand-site/create' | '/api/auth/$'
+  to:
+    | '/'
+    | '/login'
+    | '/dashboard'
+    | '/brand-site/create'
+    | '/logistics/simulator'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/'
@@ -87,6 +104,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/_protected/dashboard'
     | '/_protected/brand-site/create'
+    | '/_protected/logistics/simulator'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
@@ -134,6 +152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_protected/logistics/simulator': {
+      id: '/_protected/logistics/simulator'
+      path: '/logistics/simulator'
+      fullPath: '/logistics/simulator'
+      preLoaderRoute: typeof ProtectedLogisticsSimulatorRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/brand-site/create': {
       id: '/_protected/brand-site/create'
       path: '/brand-site/create'
@@ -147,11 +172,13 @@ declare module '@tanstack/react-router' {
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedBrandSiteCreateRoute: typeof ProtectedBrandSiteCreateRoute
+  ProtectedLogisticsSimulatorRoute: typeof ProtectedLogisticsSimulatorRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedBrandSiteCreateRoute: ProtectedBrandSiteCreateRoute,
+  ProtectedLogisticsSimulatorRoute: ProtectedLogisticsSimulatorRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
