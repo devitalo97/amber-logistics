@@ -1,5 +1,8 @@
 import type { IUseCase } from "@repo/use-case";
-import type { ICarrierMarketplaceGateway } from "../gateway/carrier-marketplace.gateway.interface";
+import type {
+	ICarrierMarketplaceGateway,
+	TransportModeType,
+} from "../gateway/carrier-marketplace.gateway.interface";
 import type { Route } from "./generate-routes.use-case";
 
 type Input = {
@@ -17,20 +20,18 @@ type Input = {
 	};
 };
 
-type ScenarioLeg = {
+export type ScenarioLeg = {
 	sequence_order: number;
 	origin_name: string;
 	destination_name: string;
-	mode: "air" | "sea" | "ground";
-	carriers: {
-		id: string;
-		name: string;
-		estimated_freight_cost: number;
-		estimated_transit_days: number;
-	}[];
+	mode: TransportModeType;
+	carrier_id: string;
+	carrier_name: string;
+	estimated_freight_cost: number;
+	estimated_transit_days: number;
 };
 
-type Scenario = {
+export type Scenario = {
 	id: string;
 	scenario_name: string;
 	total_cost: number;
@@ -40,13 +41,56 @@ type Scenario = {
 
 type Output = Scenario[];
 
-interface IGenerateScenariosUseCase extends IUseCase<Input, Output> {}
+export interface IGenerateScenariosUseCase extends IUseCase<Input, Output> {}
 
-class GenerateScenariosUseCase implements IGenerateScenariosUseCase {
-	constructor(readonly carrierMarketplaceGateway: ICarrierMarketplaceGateway) {}
+export class GenerateScenariosUseCase implements IGenerateScenariosUseCase {
+	constructor(
+		private readonly carrierMarketplaceGateway: ICarrierMarketplaceGateway,
+	) {}
+
 	async execute(input: Input): Promise<Output> {
-		throw new Error("Method not implemented.");
+		const { routes, volumetry_total } = input;
+		const scenarios: Scenario[] = [];
+
+		for (const route of routes) {
+			const scenarioLegs: ScenarioLeg[] = [];
+			let total_cost = 0;
+			let total_days = 0;
+
+			for (const leg of route.legs) {
+				const quote = await this.carrierMarketplaceGateway.quote({
+					origin: leg.origin,
+					destination: leg.destination,
+					mode: leg.mode,
+					weight_kg: volumetry_total.total_weight_kg,
+					volume_cbm: volumetry_total.total_volume_cbm,
+					packages: [], // Supresso para abstração de volumetria total
+				});
+
+				scenarioLegs.push({
+					sequence_order: leg.sequence,
+					origin_name: leg.origin.description || "Nó Não Mapeado",
+					destination_name: leg.destination.description || "Nó Não Mapeado",
+					mode: leg.mode,
+					carrier_id: quote.carrier_id,
+					carrier_name: quote.carrier_name,
+					estimated_freight_cost: quote.estimated_freight_cost,
+					estimated_transit_days: quote.estimated_transit_days,
+				});
+
+				total_cost += quote.estimated_freight_cost;
+				total_days += quote.estimated_transit_days;
+			}
+
+			scenarios.push({
+				id: route.id,
+				scenario_name: route.name,
+				total_cost,
+				total_days,
+				legs: scenarioLegs,
+			});
+		}
+
+		return scenarios;
 	}
 }
-
-export { GenerateScenariosUseCase, type IGenerateScenariosUseCase };
