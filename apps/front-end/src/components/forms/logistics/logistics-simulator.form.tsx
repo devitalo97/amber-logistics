@@ -3,12 +3,7 @@ import { ProductsCard } from "./products-card";
 import { ScenarioComparisonMatrix } from "./scenario-comparison-matrix";
 import { SkeletonCard } from "./skeleton-card";
 import { SummaryCard } from "./summary-card";
-import {
-	destinations,
-	mockProductsCatalog,
-	origins,
-	useLogisticsSimulatorForm,
-} from "./use-logistics-simulator.form";
+import { useLogisticsSimulatorForm } from "./use-logistics-simulator.form";
 import { WaypointCard } from "./waypoint-card";
 
 export function LogisticsSimulatorForm() {
@@ -20,6 +15,9 @@ export function LogisticsSimulatorForm() {
 		scenarios,
 		destination,
 		selectedProducts,
+		productsCatalog,
+		origins,
+		destinations,
 		handleAddProduct,
 		handleRemoveProduct,
 		handleProductChange,
@@ -49,7 +47,7 @@ export function LogisticsSimulatorForm() {
 						handleProductChange={handleProductChange}
 						handleAddProduct={handleAddProduct}
 						selectedProducts={selectedProducts}
-						mockProductsCatalog={mockProductsCatalog}
+						productsCatalog={productsCatalog}
 					/>
 					<WaypointCard
 						origin={origin}

@@ -1,3 +1,4 @@
+import type { ProductData } from "@repo/core";
 import { Plus, Trash2 } from "lucide-react";
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
@@ -20,7 +21,7 @@ import {
 interface ProductsCardProps {
 	handleAddProduct: () => void;
 	selectedProducts: any[];
-	mockProductsCatalog: any[];
+	productsCatalog: ProductData[];
 	getPartialCBM: (productId: string, quantity: number) => number;
 	handleProductChange: (index: number, productId: string) => void;
 	handleQuantityChange: (index: number, quantity: number) => void;
@@ -30,7 +31,7 @@ interface ProductsCardProps {
 export function ProductsCard({
 	handleAddProduct,
 	selectedProducts,
-	mockProductsCatalog,
+	productsCatalog,
 	getPartialCBM,
 	handleProductChange,
 	handleQuantityChange,
@@ -61,7 +62,7 @@ export function ProductsCard({
 			<CardContent>
 				<div className="space-y-3">
 					{selectedProducts.map((item, index) => {
-						const product = mockProductsCatalog.find(
+						const product = productsCatalog.find(
 							(p) => p.id === item.productId,
 						);
 						const partialCBM = getPartialCBM(item.productId, item.quantity);
@@ -81,7 +82,7 @@ export function ProductsCard({
 											<SelectValue placeholder="Selecione um produto" />
 										</SelectTrigger>
 										<SelectContent>
-											{mockProductsCatalog.map((prod) => (
+											{productsCatalog.map((prod) => (
 												<SelectItem key={prod.id} value={prod.id}>
 													<span className="flex items-center gap-2">
 														<span className="font-medium">{prod.name}</span>

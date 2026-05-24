@@ -1,5 +1,7 @@
 import { Plane, Ship, Truck } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
+import { runSimulationFn } from "@/lib/logistics.functions";
+import { Route } from "@/routes/_protected/logistics/simulator";
 
 // TypeScript Contracts
 enum TransportModeEnum {
@@ -34,60 +36,7 @@ interface Scenario {
 	legs: SimulatedLeg[];
 }
 
-// Product Master Data Interface
-interface ProductMasterData {
-	id: string;
-	name: string;
-	sku: string;
-	volume_cbm_per_unit: number;
-	weight_kg_per_unit: number;
-}
-
-// Selected Product State Interface
-interface SelectedProductState {
-	productId: string;
-	quantity: number;
-}
-
-// Mock Product Catalog
-const mockProductsCatalog: ProductMasterData[] = [
-	{
-		id: "prod-1",
-		name: "Mini Summit Insulated Pants",
-		sku: "OPP027",
-		volume_cbm_per_unit: 0.05,
-		weight_kg_per_unit: 0.8,
-	},
-	{
-		id: "prod-2",
-		name: "Latitude 3-Layer Pant",
-		sku: "OPP021",
-		volume_cbm_per_unit: 0.06,
-		weight_kg_per_unit: 0.95,
-	},
-	{
-		id: "prod-3",
-		name: "Cargo Recon Pant",
-		sku: "OPP022",
-		volume_cbm_per_unit: 0.04,
-		weight_kg_per_unit: 0.75,
-	},
-	{
-		id: "prod-4",
-		name: "Alpine Pro Jacket",
-		sku: "OPJ015",
-		volume_cbm_per_unit: 0.08,
-		weight_kg_per_unit: 1.2,
-	},
-	{
-		id: "prod-5",
-		name: "Trail Runner Shorts",
-		sku: "OPS008",
-		volume_cbm_per_unit: 0.02,
-		weight_kg_per_unit: 0.35,
-	},
-];
-
+// Removed Mock Product Catalog
 // Carrier Options Dictionary by Transport Mode
 const carrierOptionsByMode: Record<TransportModeEnum, CarrierOption[]> = {
 	[TransportModeEnum.sea]: [
@@ -128,118 +77,7 @@ const carrierOptionsByMode: Record<TransportModeEnum, CarrierOption[]> = {
 	],
 };
 
-// Mock Data for Shanghai to San Francisco
-const initialMockScenarios: Scenario[] = [
-	{
-		id: "scenario-1",
-		scenario_name: "Opção 1: Combo Mar-Terra Mais Rápido",
-		total_cost: 4850,
-		total_days: 18,
-		legs: [
-			{
-				sequence_order: 1,
-				origin_name: "Porto de Shanghai",
-				destination_name: "Porto de Los Angeles",
-				mode: TransportModeEnum.sea,
-				carrier_id: "maersk",
-				carrier_name: "Maersk Line",
-				estimated_freight_cost: 3200,
-				estimated_transit_days: 14,
-			},
-			{
-				sequence_order: 2,
-				origin_name: "Porto de Los Angeles",
-				destination_name: "Centro Intermodal de Oakland",
-				mode: TransportModeEnum.land,
-				carrier_id: "union-pacific",
-				carrier_name: "Union Pacific Railroad",
-				estimated_freight_cost: 950,
-				estimated_transit_days: 2,
-			},
-			{
-				sequence_order: 3,
-				origin_name: "Centro Intermodal de Oakland",
-				destination_name: "Armazém da Marca em San Francisco",
-				mode: TransportModeEnum.land,
-				carrier_id: "xpo",
-				carrier_name: "XPO Logistics",
-				estimated_freight_cost: 700,
-				estimated_transit_days: 2,
-			},
-		],
-	},
-	{
-		id: "scenario-2",
-		scenario_name: "Opção 2: Rota Oceânica Econômica",
-		total_cost: 3250,
-		total_days: 28,
-		legs: [
-			{
-				sequence_order: 1,
-				origin_name: "Porto de Shanghai",
-				destination_name: "Porto de Oakland",
-				mode: TransportModeEnum.sea,
-				carrier_id: "cosco",
-				carrier_name: "COSCO Shipping",
-				estimated_freight_cost: 2900,
-				estimated_transit_days: 16,
-			},
-			{
-				sequence_order: 2,
-				origin_name: "Porto de Oakland",
-				destination_name: "Armazém da Marca em San Francisco",
-				mode: TransportModeEnum.land,
-				carrier_id: "fedex-freight",
-				carrier_name: "FedEx Freight",
-				estimated_freight_cost: 1100,
-				estimated_transit_days: 1,
-			},
-		],
-	},
-	{
-		id: "scenario-3",
-		scenario_name: "Opção 3: Expresso Aéreo Premium",
-		total_cost: 12500,
-		total_days: 5,
-		legs: [
-			{
-				sequence_order: 1,
-				origin_name: "Aeroporto de Shanghai Pudong",
-				destination_name: "Aeroporto Internacional de San Francisco",
-				mode: TransportModeEnum.air,
-				carrier_id: "dhl",
-				carrier_name: "DHL Express",
-				estimated_freight_cost: 11200,
-				estimated_transit_days: 3,
-			},
-			{
-				sequence_order: 2,
-				origin_name: "Aeroporto Internacional de San Francisco",
-				destination_name: "Armazém da Marca em San Francisco",
-				mode: TransportModeEnum.land,
-				carrier_id: "ups-freight",
-				carrier_name: "UPS Freight",
-				estimated_freight_cost: 1300,
-				estimated_transit_days: 2,
-			},
-		],
-	},
-];
-
-const origins = [
-	{ value: "shanghai", label: "Porto de Shanghai, China" },
-	{ value: "shenzhen", label: "Porto de Shenzhen, China" },
-	{ value: "ningbo", label: "Porto de Ningbo, China" },
-	{ value: "qingdao", label: "Porto de Qingdao, China" },
-];
-
-const destinations = [
-	{ value: "sf", label: "Armazém da Marca em San Francisco" },
-	{ value: "la", label: "Centro de Distribuição de Los Angeles" },
-	{ value: "seattle", label: "Armazém Regional de Seattle" },
-	{ value: "chicago", label: "Centro Logístico de Chicago" },
-];
-
+// Removed static origins and destinations
 function getModeIcon(mode: TransportModeEnum) {
 	switch (mode) {
 		case TransportModeEnum.sea:
@@ -291,10 +129,20 @@ function calculateETA(days: number) {
 }
 
 const useLogisticsSimulatorForm = () => {
+	const { products: productsCatalog, waypoints } = Route.useLoaderData();
+
+	const origins = waypoints
+		.filter((w) => w.type !== "brand_site")
+		.map((w) => ({ value: w.id, label: w.description || w.id }));
+
+	const destinations = waypoints
+		.filter((w) => w.type === "brand_site")
+		.map((w) => ({ value: w.id, label: w.description || w.id }));
+
 	const [origin, setOrigin] = useState<string>("");
 	const [destination, setDestination] = useState<string>("");
 	const [selectedProducts, setSelectedProducts] = useState<
-		SelectedProductState[]
+		{ productId: string; quantity: number }[]
 	>([{ productId: "", quantity: 1 }]);
 	const [scenarios, setScenarios] = useState<Scenario[]>([]);
 	const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
@@ -308,7 +156,7 @@ const useLogisticsSimulatorForm = () => {
 			let units = 0;
 
 			selectedProducts.forEach((item) => {
-				const prod = mockProductsCatalog.find((p) => p.id === item.productId);
+				const prod = productsCatalog.find((p) => p.id === item.productId);
 				if (prod && item.quantity > 0) {
 					cbm += prod.volume_cbm_per_unit * item.quantity;
 					weight += prod.weight_kg_per_unit * item.quantity;
@@ -321,7 +169,7 @@ const useLogisticsSimulatorForm = () => {
 				totalCalculatedWeight: weight,
 				totalUnits: units,
 			};
-		}, [selectedProducts]);
+		}, [selectedProducts, productsCatalog]);
 
 	// Estimated boxes (assuming ~0.05 CBM per box average)
 	const estimatedBoxes = Math.ceil(totalCalculatedCBM / 0.05);
@@ -330,11 +178,11 @@ const useLogisticsSimulatorForm = () => {
 	const canSimulate = useMemo(() => {
 		if (!origin || !destination) return false;
 		const hasValidProduct = selectedProducts.some((item) => {
-			const prod = mockProductsCatalog.find((p) => p.id === item.productId);
+			const prod = productsCatalog.find((p) => p.id === item.productId);
 			return prod && item.quantity > 0;
 		});
 		return hasValidProduct;
-	}, [origin, destination, selectedProducts]);
+	}, [origin, destination, selectedProducts, productsCatalog]);
 
 	// Compute dynamic totals for each scenario
 	const computedScenarios = useMemo(() => {
@@ -378,23 +226,33 @@ const useLogisticsSimulatorForm = () => {
 	};
 
 	const getPartialCBM = (productId: string, quantity: number) => {
-		const prod = mockProductsCatalog.find((p) => p.id === productId);
+		const prod = productsCatalog.find((p) => p.id === productId);
 		if (!prod) return 0;
 		return prod.volume_cbm_per_unit * quantity;
 	};
 
-	const handleRunSimulation = () => {
+	const handleRunSimulation = async () => {
 		if (!canSimulate) return;
 
 		setIsSimulating(true);
 		setSelectedScenario(null);
 
-		// Simulate API call delay
-		setTimeout(() => {
-			// Deep clone to avoid mutation issues
-			setScenarios(JSON.parse(JSON.stringify(initialMockScenarios)));
+		try {
+			const result = await runSimulationFn({
+				data: {
+					products: selectedProducts.map((p) => ({
+						id: p.productId,
+						quantity: p.quantity,
+					})),
+					waypoints: { origin_id: origin, destination_id: destination },
+				},
+			});
+			setScenarios(result.scenarios as unknown as Scenario[]);
+		} catch (error) {
+			console.error("Simulation failed:", error);
+		} finally {
 			setIsSimulating(false);
-		}, 1200);
+		}
 	};
 
 	const handleSelectScenario = (scenarioId: string) => {
@@ -441,6 +299,9 @@ const useLogisticsSimulatorForm = () => {
 		destination,
 		origin,
 		selectedProducts,
+		productsCatalog,
+		origins,
+		destinations,
 		handleAddProduct,
 		handleRemoveProduct,
 		handleProductChange,
@@ -461,13 +322,10 @@ const useLogisticsSimulatorForm = () => {
 export {
 	calculateETA,
 	carrierOptionsByMode,
-	destinations,
 	formatCurrency,
 	getModeBadgeStyle,
 	getModeIcon,
 	getModeLabel,
-	mockProductsCatalog,
-	origins,
 	type Scenario,
 	TransportModeEnum,
 	useLogisticsSimulatorForm,
