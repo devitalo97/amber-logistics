@@ -469,5 +469,6 @@ export {
 	mockProductsCatalog,
 	origins,
 	type Scenario,
+	TransportModeEnum,
 	useLogisticsSimulatorForm,
 };
