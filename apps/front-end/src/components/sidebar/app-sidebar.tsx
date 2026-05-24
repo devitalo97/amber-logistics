@@ -109,7 +109,26 @@ const data = {
 		{
 			title: "Shipments",
 			url: "/shipments",
-			icon: <ShipIcon />,
+			icon: Ship,
+		},
+		{
+			title: "Logistics",
+			url: "/logistics",
+			icon: Package,
+			items: [
+				{
+					title: "Dashboard",
+					url: "/logistics/dashboard",
+				},
+				{
+					title: "Brand Sites",
+					url: "/logistics/brand-sites",
+				},
+				{
+					title: "Simulator",
+					url: "/logistics/simulator",
+				},
+			],
 		},
 	],
 	navSecondary: [
