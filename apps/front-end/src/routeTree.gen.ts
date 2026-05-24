@@ -12,10 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ProtectedLogisticsSimulatorRouteImport } from './routes/_protected/logistics/simulator'
-import { Route as ProtectedBrandSiteCreateRouteImport } from './routes/_protected/brand-site/create'
+import { Route as ProtectedLogisticsDashboardRouteImport } from './routes/_protected/logistics/dashboard'
+import { Route as ProtectedLogisticsBrandSitesIndexRouteImport } from './routes/_protected/logistics/brand-sites/index'
+import { Route as ProtectedLogisticsBrandSitesCreateRouteImport } from './routes/_protected/logistics/brand-sites/create'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -31,11 +32,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => ProtectedRoute,
-} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -47,65 +43,83 @@ const ProtectedLogisticsSimulatorRoute =
     path: '/logistics/simulator',
     getParentRoute: () => ProtectedRoute,
   } as any)
-const ProtectedBrandSiteCreateRoute =
-  ProtectedBrandSiteCreateRouteImport.update({
-    id: '/brand-site/create',
-    path: '/brand-site/create',
+const ProtectedLogisticsDashboardRoute =
+  ProtectedLogisticsDashboardRouteImport.update({
+    id: '/logistics/dashboard',
+    path: '/logistics/dashboard',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedLogisticsBrandSitesIndexRoute =
+  ProtectedLogisticsBrandSitesIndexRouteImport.update({
+    id: '/logistics/brand-sites/',
+    path: '/logistics/brand-sites/',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
+const ProtectedLogisticsBrandSitesCreateRoute =
+  ProtectedLogisticsBrandSitesCreateRouteImport.update({
+    id: '/logistics/brand-sites/create',
+    path: '/logistics/brand-sites/create',
     getParentRoute: () => ProtectedRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/dashboard': typeof ProtectedDashboardRoute
-  '/brand-site/create': typeof ProtectedBrandSiteCreateRoute
+  '/logistics/dashboard': typeof ProtectedLogisticsDashboardRoute
   '/logistics/simulator': typeof ProtectedLogisticsSimulatorRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/logistics/brand-sites/create': typeof ProtectedLogisticsBrandSitesCreateRoute
+  '/logistics/brand-sites/': typeof ProtectedLogisticsBrandSitesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/dashboard': typeof ProtectedDashboardRoute
-  '/brand-site/create': typeof ProtectedBrandSiteCreateRoute
+  '/logistics/dashboard': typeof ProtectedLogisticsDashboardRoute
   '/logistics/simulator': typeof ProtectedLogisticsSimulatorRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/logistics/brand-sites/create': typeof ProtectedLogisticsBrandSitesCreateRoute
+  '/logistics/brand-sites': typeof ProtectedLogisticsBrandSitesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_protected': typeof ProtectedRouteWithChildren
   '/login': typeof LoginRoute
-  '/_protected/dashboard': typeof ProtectedDashboardRoute
-  '/_protected/brand-site/create': typeof ProtectedBrandSiteCreateRoute
+  '/_protected/logistics/dashboard': typeof ProtectedLogisticsDashboardRoute
   '/_protected/logistics/simulator': typeof ProtectedLogisticsSimulatorRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_protected/logistics/brand-sites/create': typeof ProtectedLogisticsBrandSitesCreateRoute
+  '/_protected/logistics/brand-sites/': typeof ProtectedLogisticsBrandSitesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/login'
-    | '/dashboard'
-    | '/brand-site/create'
+    | '/logistics/dashboard'
     | '/logistics/simulator'
     | '/api/auth/$'
+    | '/logistics/brand-sites/create'
+    | '/logistics/brand-sites/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
-    | '/dashboard'
-    | '/brand-site/create'
+    | '/logistics/dashboard'
     | '/logistics/simulator'
     | '/api/auth/$'
+    | '/logistics/brand-sites/create'
+    | '/logistics/brand-sites'
   id:
     | '__root__'
     | '/'
     | '/_protected'
     | '/login'
-    | '/_protected/dashboard'
-    | '/_protected/brand-site/create'
+    | '/_protected/logistics/dashboard'
     | '/_protected/logistics/simulator'
     | '/api/auth/$'
+    | '/_protected/logistics/brand-sites/create'
+    | '/_protected/logistics/brand-sites/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -138,13 +152,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/dashboard': {
-      id: '/_protected/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof ProtectedDashboardRouteImport
-      parentRoute: typeof ProtectedRoute
-    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -159,26 +166,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedLogisticsSimulatorRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/brand-site/create': {
-      id: '/_protected/brand-site/create'
-      path: '/brand-site/create'
-      fullPath: '/brand-site/create'
-      preLoaderRoute: typeof ProtectedBrandSiteCreateRouteImport
+    '/_protected/logistics/dashboard': {
+      id: '/_protected/logistics/dashboard'
+      path: '/logistics/dashboard'
+      fullPath: '/logistics/dashboard'
+      preLoaderRoute: typeof ProtectedLogisticsDashboardRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/logistics/brand-sites/': {
+      id: '/_protected/logistics/brand-sites/'
+      path: '/logistics/brand-sites'
+      fullPath: '/logistics/brand-sites/'
+      preLoaderRoute: typeof ProtectedLogisticsBrandSitesIndexRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/logistics/brand-sites/create': {
+      id: '/_protected/logistics/brand-sites/create'
+      path: '/logistics/brand-sites/create'
+      fullPath: '/logistics/brand-sites/create'
+      preLoaderRoute: typeof ProtectedLogisticsBrandSitesCreateRouteImport
       parentRoute: typeof ProtectedRoute
     }
   }
 }
 
 interface ProtectedRouteChildren {
-  ProtectedDashboardRoute: typeof ProtectedDashboardRoute
-  ProtectedBrandSiteCreateRoute: typeof ProtectedBrandSiteCreateRoute
+  ProtectedLogisticsDashboardRoute: typeof ProtectedLogisticsDashboardRoute
   ProtectedLogisticsSimulatorRoute: typeof ProtectedLogisticsSimulatorRoute
+  ProtectedLogisticsBrandSitesCreateRoute: typeof ProtectedLogisticsBrandSitesCreateRoute
+  ProtectedLogisticsBrandSitesIndexRoute: typeof ProtectedLogisticsBrandSitesIndexRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
-  ProtectedDashboardRoute: ProtectedDashboardRoute,
-  ProtectedBrandSiteCreateRoute: ProtectedBrandSiteCreateRoute,
+  ProtectedLogisticsDashboardRoute: ProtectedLogisticsDashboardRoute,
   ProtectedLogisticsSimulatorRoute: ProtectedLogisticsSimulatorRoute,
+  ProtectedLogisticsBrandSitesCreateRoute:
+    ProtectedLogisticsBrandSitesCreateRoute,
+  ProtectedLogisticsBrandSitesIndexRoute:
+    ProtectedLogisticsBrandSitesIndexRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
