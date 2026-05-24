@@ -22,7 +22,8 @@
 		"start": "bun run ./dist/index.js",
 		"db:generate": "drizzle-kit generate --config=src/infrastructure/db/drizzle/drizzle.config.ts",
 		"db:migrate": "drizzle-kit migrate --config=src/infrastructure/db/drizzle/drizzle.config.ts",
-		"db:studio": "drizzle-kit studio --config=src/infrastructure/db/drizzle/drizzle.config.ts"
+		"db:studio": "drizzle-kit studio --config=src/infrastructure/db/drizzle/drizzle.config.ts",
+		"db:seed": "bun run src/infrastructure/db/drizzle/seed.ts"
 	},
 	"devDependencies": {
 		"@repo/config.biome": "workspace:*",
