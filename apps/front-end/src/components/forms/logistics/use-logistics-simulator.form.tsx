@@ -26,7 +26,7 @@ interface SimulatedLeg {
 	estimated_transit_days: number;
 }
 
-interface SimulationScenario {
+interface Scenario {
 	id: string;
 	scenario_name: string;
 	total_cost: number;
@@ -129,7 +129,7 @@ const carrierOptionsByMode: Record<TransportModeEnum, CarrierOption[]> = {
 };
 
 // Mock Data for Shanghai to San Francisco
-const initialMockScenarios: SimulationScenario[] = [
+const initialMockScenarios: Scenario[] = [
 	{
 		id: "scenario-1",
 		scenario_name: "Opção 1: Combo Mar-Terra Mais Rápido",
@@ -296,7 +296,7 @@ const useLogisticsSimulatorForm = () => {
 	const [selectedProducts, setSelectedProducts] = useState<
 		SelectedProductState[]
 	>([{ productId: "", quantity: 1 }]);
-	const [scenarios, setScenarios] = useState<SimulationScenario[]>([]);
+	const [scenarios, setScenarios] = useState<Scenario[]>([]);
 	const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
 	const [isSimulating, setIsSimulating] = useState(false);
 
@@ -397,7 +397,7 @@ const useLogisticsSimulatorForm = () => {
 		}, 1200);
 	};
 
-	const handleSelectRoute = (scenarioId: string) => {
+	const handleSelectScenario = (scenarioId: string) => {
 		setSelectedScenario(scenarioId);
 	};
 
@@ -447,7 +447,7 @@ const useLogisticsSimulatorForm = () => {
 		handleQuantityChange,
 		getPartialCBM,
 		handleRunSimulation,
-		handleSelectRoute,
+		handleSelectScenario,
 		handleCarrierChange,
 		setOrigin,
 		setDestination,
@@ -468,5 +468,6 @@ export {
 	getModeLabel,
 	mockProductsCatalog,
 	origins,
+	type Scenario,
 	useLogisticsSimulatorForm,
 };
