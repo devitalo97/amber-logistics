@@ -1,6 +1,6 @@
 import { EmptyStateCard } from "./empty-state-card";
 import { ProductsCard } from "./products-card";
-import { ScenarioCard } from "./scenario-card";
+import { ScenarioComparisonMatrix } from "./scenario-comparison-matrix";
 import { SkeletonCard } from "./skeleton-card";
 import { SummaryCard } from "./summary-card";
 import {
@@ -82,17 +82,12 @@ export function LogisticsSimulatorForm() {
 						Opções de Roteamento Geradas
 					</h2>
 
-					<div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-						{computedScenarios.map((scenario) => (
-							<ScenarioCard
-								key={scenario.id}
-								scenario={scenario}
-								isSelected={selectedScenario === scenario.id}
-								handleSelectScenario={handleSelectScenario}
-								handleCarrierChange={handleCarrierChange}
-							/>
-						))}
-					</div>
+					<ScenarioComparisonMatrix
+						computedScenarios={scenarios}
+						handleSelectScenario={handleSelectScenario}
+						selectedScenario={selectedScenario}
+						handleCarrierChange={handleCarrierChange}
+					/>
 				</div>
 			)}
 
