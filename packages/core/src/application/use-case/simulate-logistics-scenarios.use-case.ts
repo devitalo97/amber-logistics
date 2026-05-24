@@ -2,7 +2,10 @@ import type { IUseCase } from "@repo/use-case";
 import type { IProductRepository } from "@/domain/product/product.repository.interface";
 import type { IWaypointRepository } from "@/domain/waypoint/waypoint.repository.interface";
 import type { IGenerateRoutesUseCase } from "./generate-routes.use-case";
-import type { IGenerateScenariosUseCase } from "./generate-scenarios.use-case";
+import type {
+	IGenerateScenariosUseCase,
+	Scenario,
+} from "./generate-scenarios.use-case";
 
 type Input = {
 	products: {
@@ -15,7 +18,9 @@ type Input = {
 	};
 };
 
-type Output = {};
+type Output = {
+	scenarios: Scenario[];
+};
 
 interface ISimulateLogisticsScenariosUseCase extends IUseCase<Input, Output> {}
 
@@ -71,7 +76,7 @@ class SimulateLogisticsScenariosUseCase
 			volumetry_total,
 			routes,
 		});
-		return { products, waypoints, scenarios };
+		return { scenarios };
 	}
 }
 
