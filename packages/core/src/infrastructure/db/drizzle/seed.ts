@@ -18,7 +18,6 @@ async function main() {
 		.insert(waypointTable)
 		.values([
 			{
-				description: "Central Warehouse NY",
 				type: "brand_site",
 				latitude: 40.7128,
 				longitude: -74.006,
@@ -30,7 +29,6 @@ async function main() {
 				time_zone: "America/New_York",
 			},
 			{
-				description: "LA Distribution Hub",
 				type: "brand_site",
 				latitude: 34.0522,
 				longitude: -118.2437,
@@ -42,7 +40,6 @@ async function main() {
 				time_zone: "America/Los_Angeles",
 			},
 			{
-				description: "Miami Retail Flagship",
 				type: "brand_site",
 				latitude: 25.7617,
 				longitude: -80.1918,
@@ -54,7 +51,6 @@ async function main() {
 				time_zone: "America/New_York",
 			},
 			{
-				description: "Global Supplier Inc.",
 				type: "supplier",
 				latitude: 22.5431,
 				longitude: 114.0579,
@@ -66,7 +62,6 @@ async function main() {
 				time_zone: "Asia/Shanghai",
 			},
 			{
-				description: "Port of Long Beach",
 				type: "seaport",
 				latitude: 33.7541,
 				longitude: -118.2165,
@@ -78,7 +73,6 @@ async function main() {
 				time_zone: "America/Los_Angeles",
 			},
 			{
-				description: "JFK International Airport",
 				type: "airport",
 				latitude: 40.6413,
 				longitude: -73.7781,
@@ -90,7 +84,6 @@ async function main() {
 				time_zone: "America/New_York",
 			},
 			{
-				description: "Midwest Logistic Hub",
 				type: "logistic_hub",
 				latitude: 41.8781,
 				longitude: -87.6298,
@@ -107,25 +100,25 @@ async function main() {
 	console.log("Seeding brand sites...");
 	await db.insert(brandSiteTable).values([
 		{
-			point_id: waypoints[0]!.id,
+			waypoint_id: waypoints[0]!.id,
 			type: "warehouse",
 			storage_capacity_cbm: 15000.0,
 			operational_status: "active",
-			description: "Main New York Warehouse",
+			name: "Main New York Warehouse",
 		},
 		{
-			point_id: waypoints[1]!.id,
+			waypoint_id: waypoints[1]!.id,
 			type: "distribution_center",
 			storage_capacity_cbm: 25000.5,
 			operational_status: "active",
-			description: "West Coast Distribution Center",
+			name: "West Coast Distribution Center",
 		},
 		{
-			point_id: waypoints[2]!.id,
+			waypoint_id: waypoints[2]!.id,
 			type: "retail_store",
 			storage_capacity_cbm: 1200.0,
 			operational_status: "active",
-			description: "Miami Flagship Store",
+			name: "Miami Flagship Store",
 		},
 	]);
 
