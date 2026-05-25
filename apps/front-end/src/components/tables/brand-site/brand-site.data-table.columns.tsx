@@ -32,13 +32,13 @@ export const brandSiteColumns: ColumnDef<BrandSiteData>[] = [
 		enableHiding: false,
 	},
 	{
-		accessorKey: "description",
-		header: "Description",
+		accessorKey: "name",
+		header: "Name",
 		cell: ({ row }) => {
 			return (
 				<div className="flex gap-2">
 					<span className="max-w-[500px] truncate font-medium">
-						{row.getValue("description")}
+						{row.getValue("name")}
 					</span>
 				</div>
 			);
@@ -88,6 +88,43 @@ export const brandSiteColumns: ColumnDef<BrandSiteData>[] = [
 		},
 		filterFn: (row, id, value) => {
 			return value.includes(row.getValue(id));
+		},
+	},
+	{
+		accessorKey: "waypoint",
+		header: "Address",
+		cell: ({ row }) => {
+			const waypoint = row.original.waypoint;
+
+			if (!waypoint) {
+				return (
+					<span className="text-muted-foreground text-xs italic">
+						No waypoint linked
+					</span>
+				);
+			}
+
+			const locationParts = [waypoint.city, waypoint.state].filter(Boolean);
+			const locationString = locationParts.join(", ");
+			const countrySuffix = waypoint.country_code
+				? ` (${waypoint.country_code})`
+				: "";
+
+			return (
+				<div className="flex flex-col gap-1 py-1">
+					<div className="flex items-center gap-1.5 font-medium text-slate-800 dark:text-slate-200">
+						<span className="text-sm">
+							{locationString || "Coordinates Only"}
+							{countrySuffix}
+						</span>
+						{waypoint.address_line_1 && (
+							<span className="text-xs text-muted-foreground line-clamp-1">
+								{waypoint.address_line_1}
+							</span>
+						)}
+					</div>
+				</div>
+			);
 		},
 	},
 	{
