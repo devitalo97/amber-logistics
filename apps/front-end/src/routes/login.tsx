@@ -8,7 +8,7 @@ export const Route = createFileRoute("/login")({
 
 		if (session) {
 			throw redirect({
-				to: "/dashboard",
+				to: "/logistics/dashboard",
 			});
 		}
 	},
