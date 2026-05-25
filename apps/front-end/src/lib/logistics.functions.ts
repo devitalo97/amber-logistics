@@ -25,6 +25,13 @@ export const getWaypointsFn = createServerFn({ method: "GET" }).handler(
 	},
 );
 
+export const getBrandSitesFn = createServerFn({ method: "GET" }).handler(
+	async () => {
+		await ensureSession();
+		return await compositionRoot.listBrandSitesUseCase.execute();
+	},
+);
+
 export const runSimulationFn = createServerFn({ method: "POST" }).handler(
 	async ({ data }: { data: any }) => {
 		const payload = data as {
