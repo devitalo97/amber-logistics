@@ -43,6 +43,13 @@
       "when": 1779738755893,
       "tag": "0005_high_sumo",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1779738986536,
+      "tag": "0006_wonderful_betty_brant",
+      "breakpoints": true
     }
   ]
 }
