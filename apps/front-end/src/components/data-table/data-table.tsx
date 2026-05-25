@@ -10,6 +10,8 @@ import {
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	type OnChangeFn,
+	type PaginationState,
 	type SortingState,
 	type Table as TanstackTable,
 	useReactTable,
@@ -31,40 +33,84 @@ interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 	toolbar?: (table: TanstackTable<TData>) => React.ReactNode;
+	// Pagination
+	pagination?: PaginationState;
+	onPaginationChange?: OnChangeFn<PaginationState>;
+	pageCount?: number;
+	rowCount?: number;
+	hasNextPage?: boolean;
+	hasPreviousPage?: boolean;
+	onNextPage?: () => void;
+	onPreviousPage?: () => void;
+	// Sorting
+	sorting?: SortingState;
+	onSortingChange?: OnChangeFn<SortingState>;
+	// Filtering
+	columnFilters?: ColumnFiltersState;
+	onColumnFiltersChange?: OnChangeFn<ColumnFiltersState>;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
 	toolbar,
+	pagination,
+	onPaginationChange,
+	pageCount,
+	rowCount,
+	hasNextPage,
+	hasPreviousPage,
+	onNextPage,
+	onPreviousPage,
+	sorting,
+	onSortingChange,
+	columnFilters,
+	onColumnFiltersChange,
 }: DataTableProps<TData, TValue>) {
 	const [rowSelection, setRowSelection] = React.useState({});
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
-	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+
+	// Fallbacks for internal state if controlled props are not provided
+	const [internalColumnFilters, setInternalColumnFilters] =
+		React.useState<ColumnFiltersState>([]);
+	const [internalSorting, setInternalSorting] = React.useState<SortingState>(
 		[],
 	);
-	const [sorting, setSorting] = React.useState<SortingState>([]);
+	const [internalPagination, setInternalPagination] =
+		React.useState<PaginationState>({ pageIndex: 0, pageSize: 25 });
+
+	const isControlledPagination = pagination !== undefined;
+	const isControlledSorting = sorting !== undefined;
+	const isControlledFiltering = columnFilters !== undefined;
 
 	const table = useReactTable({
 		data,
 		columns,
 		state: {
-			sorting,
+			sorting: isControlledSorting ? sorting : internalSorting,
 			columnVisibility,
 			rowSelection,
-			columnFilters,
+			columnFilters: isControlledFiltering
+				? columnFilters
+				: internalColumnFilters,
+			pagination: isControlledPagination ? pagination : internalPagination,
 		},
-		initialState: {
-			pagination: {
-				pageSize: 25,
-			},
-		},
+		pageCount: isControlledPagination ? (pageCount ?? -1) : undefined,
+		rowCount: isControlledPagination ? rowCount : undefined,
+		manualPagination: isControlledPagination,
+		manualSorting: isControlledSorting,
+		manualFiltering: isControlledFiltering,
 		enableRowSelection: true,
 		onRowSelectionChange: setRowSelection,
-		onSortingChange: setSorting,
-		onColumnFiltersChange: setColumnFilters,
+		onSortingChange: isControlledSorting ? onSortingChange : setInternalSorting,
+		onColumnFiltersChange: isControlledFiltering
+			? onColumnFiltersChange
+			: setInternalColumnFilters,
 		onColumnVisibilityChange: setColumnVisibility,
+		onPaginationChange: isControlledPagination
+			? onPaginationChange
+			: setInternalPagination,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
@@ -126,7 +172,13 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			<DataTablePagination table={table} />
+			<DataTablePagination
+				table={table}
+				hasNextPage={hasNextPage}
+				hasPreviousPage={hasPreviousPage}
+				onNextPage={onNextPage}
+				onPreviousPage={onPreviousPage}
+			/>
 		</div>
 	);
 }
