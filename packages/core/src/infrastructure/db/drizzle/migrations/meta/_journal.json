@@ -36,6 +36,13 @@
       "when": 1779626262830,
       "tag": "0004_wooden_mariko_yashida",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1779738755893,
+      "tag": "0005_high_sumo",
+      "breakpoints": true
     }
   ]
 }

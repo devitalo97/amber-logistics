@@ -1,0 +1,1 @@
+ALTER TABLE "waypoint" DROP COLUMN "description";
