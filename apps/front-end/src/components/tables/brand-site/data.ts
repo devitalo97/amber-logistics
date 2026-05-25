@@ -1,21 +1,15 @@
-import {
-	ArrowDown,
-	ArrowRight,
-	ArrowUp,
-	Circle,
-	HelpCircle,
-} from "lucide-react";
+import { Boxes, CheckCircle2, Store, Warehouse, XCircle } from "lucide-react";
 
 export const operationalStatuses = [
 	{
 		value: "active",
 		label: "Active",
-		icon: HelpCircle,
+		icon: CheckCircle2,
 	},
 	{
 		value: "inactive",
 		label: "Inactive",
-		icon: Circle,
+		icon: XCircle,
 	},
 ];
 
@@ -23,16 +17,16 @@ export const types = [
 	{
 		label: "Distribution Center",
 		value: "distribution_center",
-		icon: ArrowDown,
+		icon: Boxes,
 	},
 	{
 		label: "Warehouse",
 		value: "warehouse",
-		icon: ArrowRight,
+		icon: Warehouse,
 	},
 	{
 		label: "Retail Store",
 		value: "retail_store",
-		icon: ArrowUp,
+		icon: Store,
 	},
 ];
