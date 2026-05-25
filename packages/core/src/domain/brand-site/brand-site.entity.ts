@@ -16,12 +16,13 @@ enum OperationStatusEnum {
 
 type BrandSiteData = {
 	id: string;
-	point_id?: string | undefined;
+	name: string;
+	waypoint_id?: string | undefined;
 	waypoint?: WaypointData | undefined;
 	type: BrandTypeEnum;
 	storage_capacity_cbm?: number;
 	operational_status: OperationStatusEnum;
-	description: string;
+	description?: string;
 	created_at: Date;
 	updated_at: Date;
 };
@@ -80,7 +81,7 @@ class BrandSite {
 	syncWaypoint(id: string, timestampProvider: ITimestampProvider) {
 		this.data = {
 			...this.data,
-			point_id: id,
+			waypoint_id: id,
 			updated_at: new Date(timestampProvider.generate()),
 		};
 	}

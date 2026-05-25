@@ -10,7 +10,7 @@ import { waypointTable } from "./waypoint.table";
 
 export const brandSiteTable = pgTable("brand_site", {
 	id: uuid().primaryKey().defaultRandom(),
-	point_id: uuid().references(() => waypointTable.id, {
+	waypoint_id: uuid().references(() => waypointTable.id, {
 		onDelete: "cascade",
 	}),
 	type: brandSiteTypeEnum().notNull(),
@@ -19,7 +19,8 @@ export const brandSiteTable = pgTable("brand_site", {
 
 	operational_status: operationalStatusEnum().notNull().default("active"),
 
-	description: varchar({ length: 255 }).notNull(),
+	name: varchar({ length: 255 }).notNull(),
+	description: varchar({ length: 255 }),
 
 	created_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
 	updated_at: timestamp({ withTimezone: true }).defaultNow().notNull(),
