@@ -2,6 +2,7 @@ import { eq, inArray } from "drizzle-orm";
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { BrandSiteData } from "@/domain/brand-site/brand-site.entity";
 import type { IBrandSiteRepository } from "@/domain/brand-site/brand-site.repository.interface";
+import { waypointTable } from "@/infrastructure/db/drizzle/schema";
 import { brandSiteTable as schema } from "@/infrastructure/db/drizzle/schema/brand-site.table";
 
 export class BrandSiteRepository implements IBrandSiteRepository {
@@ -24,29 +25,60 @@ export class BrandSiteRepository implements IBrandSiteRepository {
 	}
 
 	async findOneById(id: string): Promise<BrandSiteData | null> {
-		const rows = await this.db.select().from(schema).where(eq(schema.id, id));
+		const rows = await this.db
+			.select({
+				brandSite: schema,
+				waypoint: waypointTable,
+			})
+			.from(schema)
+			.leftJoin(waypointTable, eq(schema.point_id, waypointTable.id))
+			.where(eq(schema.id, id));
 
-		if (!rows || rows.length === 0) {
+		const row = rows[0];
+
+		if (!row) {
 			return null;
 		}
 
-		return rows[0] as BrandSiteData;
+		const { brandSite, waypoint } = row;
+
+		return {
+			...brandSite,
+			waypoint: waypoint || null,
+		} as BrandSiteData;
 	}
 
 	async findManyById(ids: string[]): Promise<BrandSiteData[]> {
 		const rows = await this.db
-			.select()
+			.select({
+				brandSite: schema,
+				waypoint: waypointTable,
+			})
 			.from(schema)
+			.leftJoin(waypointTable, eq(schema.point_id, waypointTable.id))
 			.where(inArray(schema.id, ids));
 
 		if (!rows || rows.length === 0) {
 			return [];
 		}
 
-		return rows as BrandSiteData[];
+		return rows.map(({ brandSite, waypoint }) => ({
+			...brandSite,
+			waypoint: waypoint || null,
+		})) as BrandSiteData[];
 	}
+
 	async findAll(): Promise<BrandSiteData[]> {
-		const rows = await this.db.select().from(schema);
-		return rows as BrandSiteData[];
+		const rows = await this.db
+			.select({
+				brandSite: schema,
+				waypoint: waypointTable,
+			})
+			.from(schema)
+			.leftJoin(waypointTable, eq(schema.point_id, waypointTable.id));
+		return rows.map(({ brandSite, waypoint }) => ({
+			...brandSite,
+			waypoint: waypoint || null,
+		})) as BrandSiteData[];
 	}
 }
