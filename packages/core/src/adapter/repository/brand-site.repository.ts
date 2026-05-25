@@ -31,7 +31,7 @@ export class BrandSiteRepository implements IBrandSiteRepository {
 				waypoint: waypointTable,
 			})
 			.from(schema)
-			.leftJoin(waypointTable, eq(schema.point_id, waypointTable.id))
+			.leftJoin(waypointTable, eq(schema.waypoint_id, waypointTable.id))
 			.where(eq(schema.id, id));
 
 		const row = rows[0];
@@ -55,7 +55,7 @@ export class BrandSiteRepository implements IBrandSiteRepository {
 				waypoint: waypointTable,
 			})
 			.from(schema)
-			.leftJoin(waypointTable, eq(schema.point_id, waypointTable.id))
+			.leftJoin(waypointTable, eq(schema.waypoint_id, waypointTable.id))
 			.where(inArray(schema.id, ids));
 
 		if (!rows || rows.length === 0) {
@@ -75,7 +75,7 @@ export class BrandSiteRepository implements IBrandSiteRepository {
 				waypoint: waypointTable,
 			})
 			.from(schema)
-			.leftJoin(waypointTable, eq(schema.point_id, waypointTable.id));
+			.leftJoin(waypointTable, eq(schema.waypoint_id, waypointTable.id));
 		return rows.map(({ brandSite, waypoint }) => ({
 			...brandSite,
 			waypoint: waypoint || null,

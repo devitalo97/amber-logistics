@@ -70,8 +70,8 @@ export class MockCarrierMarketplaceGateway
 		// Seleção determinística primária baseada na origem para variar respostas
 		const carrier =
 			options[
-				input.origin.description?.length
-					? input.origin.description.length % options.length
+				input.origin.city?.length
+					? input.origin.city.length % options.length
 					: 0
 			]!;
 

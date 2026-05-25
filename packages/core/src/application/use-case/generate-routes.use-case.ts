@@ -32,27 +32,22 @@ export class GenerateRoutesUseCase implements IGenerateRoutesUseCase {
 		const portOrigin: WaypointData = {
 			...origin,
 			id: crypto.randomUUID(),
-			description: `Terminal Portuário (${origin.city || "Origem"})`,
 		};
 		const portDest: WaypointData = {
 			...destination,
 			id: crypto.randomUUID(),
-			description: `Terminal Portuário (${destination.city || "Destino"})`,
 		};
 		const airportOrigin: WaypointData = {
 			...origin,
 			id: crypto.randomUUID(),
-			description: `Hub de Carga Aérea (${origin.city || "Origem"})`,
 		};
 		const airportDest: WaypointData = {
 			...destination,
 			id: crypto.randomUUID(),
-			description: `Hub de Carga Aérea (${destination.city || "Destino"})`,
 		};
 		const railTerminal: WaypointData = {
 			...destination,
 			id: crypto.randomUUID(),
-			description: `Terminal Ferroviário Regional`,
 		};
 
 		return [

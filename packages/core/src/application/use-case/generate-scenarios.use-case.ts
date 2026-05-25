@@ -69,8 +69,8 @@ export class GenerateScenariosUseCase implements IGenerateScenariosUseCase {
 
 				scenarioLegs.push({
 					sequence_order: leg.sequence,
-					origin_name: leg.origin.description || "Nó Não Mapeado",
-					destination_name: leg.destination.description || "Nó Não Mapeado",
+					origin_name: leg.origin.city || "Nó Não Mapeado",
+					destination_name: leg.destination.city || "Nó Não Mapeado",
 					mode: leg.mode,
 					carrier_id: quote.carrier_id,
 					carrier_name: quote.carrier_name,
