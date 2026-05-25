@@ -21,18 +21,18 @@ export const operationalStatuses = [
 
 export const types = [
 	{
-		label: "distribution_center",
-		value: "Distribution Center",
+		label: "Distribution Center",
+		value: "distribution_center",
 		icon: ArrowDown,
 	},
 	{
-		label: "warehouse",
-		value: "Warehouse",
+		label: "Warehouse",
+		value: "warehouse",
 		icon: ArrowRight,
 	},
 	{
-		label: "retail_store",
-		value: "Retail Store",
+		label: "Retail Store",
+		value: "retail_store",
 		icon: ArrowUp,
 	},
 ];
