@@ -10,12 +10,13 @@ import { WaypointRepository } from "@/adapter/repository/waypoint.repository";
 import { BrandSiteCreateValidator } from "@/adapter/validator/brand-site.create.validator";
 import { WaypointCreateValidator } from "@/adapter/validator/waypoint.create.validator";
 import { BrandSiteCreateUseCase } from "@/application/use-case/brand-site.create.use-case";
+import { ListBrandSiteUseCase } from "@/application/use-case/brand-site.list.use-case";
 import { GenerateRoutesUseCase } from "@/application/use-case/generate-routes.use-case";
 import { GenerateScenariosUseCase } from "@/application/use-case/generate-scenarios.use-case";
-import { SimulateLogisticsScenariosUseCase } from "@/application/use-case/simulate-logistics-scenarios.use-case";
-import { WaypointSearchUseCase } from "@/application/use-case/waypoint.search.use-case";
 import { ListProductsUseCase } from "@/application/use-case/product.list.use-case";
+import { SimulateLogisticsScenariosUseCase } from "@/application/use-case/simulate-logistics-scenarios.use-case";
 import { ListWaypointsUseCase } from "@/application/use-case/waypoint.list.use-case";
+import { WaypointSearchUseCase } from "@/application/use-case/waypoint.search.use-case";
 import type * as schemas from "./db/drizzle/schema";
 
 type Config = {
@@ -46,6 +47,7 @@ class CompositionRoot {
 		// Repositories
 		const productRepository = new ProductRepository(db);
 		const waypointRepository = new WaypointRepository(db);
+		const brandSiteRepository = new BrandSiteRepository(db);
 
 		const uof = new UnitOfWork(db, (tx) => {
 			return {
@@ -79,6 +81,7 @@ class CompositionRoot {
 
 		const listProductsUseCase = new ListProductsUseCase(productRepository);
 		const listWaypointsUseCase = new ListWaypointsUseCase(waypointRepository);
+		const listBrandSitesUseCase = new ListBrandSiteUseCase(brandSiteRepository);
 
 		return {
 			brandSiteCreateUseCase,
@@ -86,6 +89,7 @@ class CompositionRoot {
 			simulateLogisticsScenariosUseCase,
 			listProductsUseCase,
 			listWaypointsUseCase,
+			listBrandSitesUseCase,
 		};
 	}
 }
