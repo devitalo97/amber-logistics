@@ -1,18 +1,17 @@
 "use client";
 
-import { type Table } from "@tanstack/react-table";
+import type { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
+import { DataTableFacetedFilter } from "#/components/data-table/data-table.faceted-filter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { priorities, statuses } from "../tables/brand-site/data";
-import { DataTableFacetedFilter } from "./data-table.faceted-filter";
-import { DataTableViewOptions } from "./data-table.view-options";
+import { operationalStatuses, types } from "./data";
 
 interface DataTableToolbarProps<TData> {
 	table: Table<TData>;
 }
 
-export function DataTableToolbar<TData>({
+export function BrandSiteDataTableToolbar<TData>({
 	table,
 }: DataTableToolbarProps<TData>) {
 	const isFiltered = table.getState().columnFilters.length > 0;
@@ -21,25 +20,27 @@ export function DataTableToolbar<TData>({
 		<div className="flex items-center justify-between">
 			<div className="flex flex-1 items-center gap-2">
 				<Input
-					placeholder="Filter tasks..."
-					value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+					placeholder="Filter Sites..."
+					value={
+						(table.getColumn("description")?.getFilterValue() as string) ?? ""
+					}
 					onChange={(event) =>
-						table.getColumn("title")?.setFilterValue(event.target.value)
+						table.getColumn("description")?.setFilterValue(event.target.value)
 					}
 					className="h-8 w-[150px] lg:w-[250px]"
 				/>
-				{table.getColumn("status") && (
+				{table.getColumn("operational_status") && (
 					<DataTableFacetedFilter
-						column={table.getColumn("status")}
-						title="Status"
-						options={statuses}
+						column={table.getColumn("operational_status")}
+						title="Operational Status"
+						options={operationalStatuses}
 					/>
 				)}
-				{table.getColumn("priority") && (
+				{table.getColumn("type") && (
 					<DataTableFacetedFilter
-						column={table.getColumn("priority")}
-						title="Priority"
-						options={priorities}
+						column={table.getColumn("type")}
+						title="Type"
+						options={types}
 					/>
 				)}
 				{isFiltered && (
@@ -54,8 +55,7 @@ export function DataTableToolbar<TData>({
 				)}
 			</div>
 			<div className="flex items-center gap-2">
-				<DataTableViewOptions table={table} />
-				<Button size="sm">Add Task</Button>
+				<Button size="sm">Add Site</Button>
 			</div>
 		</div>
 	);
