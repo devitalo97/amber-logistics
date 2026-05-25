@@ -1,5 +1,6 @@
 import type { ITimestampProvider } from "@/application/provider/timestamp-provider.interface";
 import type { IIdProvider } from "@/application/provider/uuid-provider.interface";
+import type { WaypointData } from "../waypoint/waypoint.entity";
 import type { IBrandSiteCreateValidator } from "./brand-site.create.validator.interface";
 
 enum BrandTypeEnum {
@@ -16,6 +17,7 @@ enum OperationStatusEnum {
 type BrandSiteData = {
 	id: string;
 	point_id?: string | undefined;
+	waypoint?: WaypointData | undefined;
 	type: BrandTypeEnum;
 	storage_capacity_cbm?: number;
 	operational_status: OperationStatusEnum;
