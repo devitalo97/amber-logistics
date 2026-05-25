@@ -10,7 +10,6 @@ import { waypointTypeEnum } from "./enums";
 
 export const waypointTable = pgTable("waypoint", {
 	id: uuid().primaryKey().defaultRandom(),
-	description: varchar({ length: 255 }),
 	type: waypointTypeEnum(),
 
 	latitude: decimal({ precision: 10, scale: 8 }).$type<number>().notNull(),

@@ -12,7 +12,6 @@ enum WaypointTypeEnum {
 
 type WaypointData = {
 	id: string;
-	description: string | null;
 	type: WaypointTypeEnum | null;
 	latitude: number;
 	longitude: number;

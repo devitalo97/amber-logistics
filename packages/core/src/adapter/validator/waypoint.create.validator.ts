@@ -7,8 +7,7 @@ import {
 
 class WaypointCreateValidator implements IWaypointCreateValidator {
 	private schema = z.object({
-		type: z.nativeEnum(WaypointTypeEnum).nullable().optional(),
-		description: z.string().nullable().optional(),
+		type: z.enum(WaypointTypeEnum).nullable().optional(),
 		latitude: z.number(),
 		longitude: z.number(),
 		country_code: z.string().nullable().optional(),
