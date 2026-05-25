@@ -11,6 +11,7 @@ import {
 	getPaginationRowModel,
 	getSortedRowModel,
 	type SortingState,
+	type Table as TanstackTable,
 	useReactTable,
 	type VisibilityState,
 } from "@tanstack/react-table";
@@ -25,16 +26,17 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table.pagination";
-import { DataTableToolbar } from "./data-table.toolbar";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	toolbar?: (table: TanstackTable<TData>) => React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
+	toolbar,
 }: DataTableProps<TData, TValue>) {
 	const [rowSelection, setRowSelection] = React.useState({});
 	const [columnVisibility, setColumnVisibility] =
@@ -73,7 +75,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div className="flex flex-col gap-4">
-			<DataTableToolbar table={table} />
+			{toolbar?.(table)}
 			<div className="overflow-hidden rounded-md border">
 				<Table>
 					<TableHeader>
