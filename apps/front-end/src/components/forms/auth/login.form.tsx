@@ -46,7 +46,7 @@ export function LoginForm() {
 					},
 					{
 						onSuccess: () => {
-							void navigate({ to: "/dashboard" });
+							void navigate({ to: "/logistics/dashboard" });
 						},
 					},
 				);
@@ -61,7 +61,7 @@ export function LoginForm() {
 					},
 					{
 						onSuccess: () => {
-							void navigate({ to: "/dashboard" });
+							void navigate({ to: "/logistics/dashboard" });
 						},
 					},
 				);
