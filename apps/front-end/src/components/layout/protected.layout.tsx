@@ -1,7 +1,8 @@
+import { Outlet } from "@tanstack/react-router";
 import { AppSidebar } from "../sidebar/app-sidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 
-export function ProtectedLayout({ children }: { children: React.ReactNode }) {
+export function ProtectedLayout() {
 	return (
 		<SidebarProvider>
 			<AppSidebar />
@@ -11,7 +12,7 @@ export function ProtectedLayout({ children }: { children: React.ReactNode }) {
 						<SidebarTrigger className="-ml-1" />
 					</div>
 				</header>
-				{children}
+				<Outlet />
 			</SidebarInset>
 		</SidebarProvider>
 	);
