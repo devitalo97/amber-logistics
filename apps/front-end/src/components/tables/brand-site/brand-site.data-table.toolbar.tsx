@@ -2,7 +2,9 @@
 
 import type { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { DataTableFacetedFilter } from "#/components/data-table/data-table.faceted-filter";
+import { useDebounce } from "#/hooks/use-debounce";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { operationalStatuses, types } from "./data";
@@ -16,15 +18,23 @@ export function BrandSiteDataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
 	const isFiltered = table.getState().columnFilters.length > 0;
 
+	const [localNameFilter, setLocalNameFilter] = useState(
+		(table.getColumn("name")?.getFilterValue() as string) ?? "",
+	);
+
+	const debouncedNameFilter = useDebounce(localNameFilter, 300);
+
+	useEffect(() => {
+		table.getColumn("name")?.setFilterValue(debouncedNameFilter);
+	}, [debouncedNameFilter, table]);
+
 	return (
 		<div className="flex items-center justify-between">
 			<div className="flex flex-1 items-center gap-2">
 				<Input
 					placeholder="Filter Sites..."
-					value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-					onChange={(event) =>
-						table.getColumn("name")?.setFilterValue(event.target.value)
-					}
+					value={localNameFilter}
+					onChange={(event) => setLocalNameFilter(event.target.value)}
 					className="h-8 w-[150px] lg:w-[250px]"
 				/>
 				{table.getColumn("operational_status") && (
