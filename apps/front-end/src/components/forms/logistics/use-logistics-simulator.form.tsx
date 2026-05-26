@@ -133,11 +133,11 @@ const useLogisticsSimulatorForm = () => {
 
 	const origins = waypoints
 		.filter((w) => w.type !== "brand_site")
-		.map((w) => ({ value: w.id, label: w.description || w.id }));
+		.map((w) => ({ value: w.id, label: w.address_line_1 || w.id }));
 
 	const destinations = waypoints
 		.filter((w) => w.type === "brand_site")
-		.map((w) => ({ value: w.id, label: w.description || w.id }));
+		.map((w) => ({ value: w.id, label: w.address_line_1 || w.id }));
 
 	const [origin, setOrigin] = useState<string>("");
 	const [destination, setDestination] = useState<string>("");
