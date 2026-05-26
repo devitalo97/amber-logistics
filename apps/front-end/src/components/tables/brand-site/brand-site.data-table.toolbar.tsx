@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@tanstack/react-router";
 import type { Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -63,7 +64,9 @@ export function BrandSiteDataTableToolbar<TData>({
 				)}
 			</div>
 			<div className="flex items-center gap-2">
-				<Button size="sm">Add Site</Button>
+				<Link to="/logistics/brand-sites/create">
+					<Button size="lg">Add Site</Button>
+				</Link>
 			</div>
 		</div>
 	);
