@@ -3,6 +3,7 @@ import { MockCarrierMarketplaceGateway } from "@/adapter/gateway/mock-carrier-ma
 import { NominatimGeocodingGateway } from "@/adapter/gateway/nominatim-geocoding.gateway";
 import { IdProvider } from "@/adapter/provider/id.provider";
 import { TimestampProvider } from "@/adapter/provider/timestamp.provider";
+import { BrandSiteListQuery } from "@/adapter/query/brand-site.list.query";
 import { BrandSiteRepository } from "@/adapter/repository/brand-site.repository";
 import { ProductRepository } from "@/adapter/repository/product.repository";
 import { UnitOfWork } from "@/adapter/repository/uow.repository";
@@ -47,7 +48,6 @@ class CompositionRoot {
 		// Repositories
 		const productRepository = new ProductRepository(db);
 		const waypointRepository = new WaypointRepository(db);
-		const brandSiteRepository = new BrandSiteRepository(db);
 
 		const uof = new UnitOfWork(db, (tx) => {
 			return {
@@ -81,7 +81,9 @@ class CompositionRoot {
 
 		const listProductsUseCase = new ListProductsUseCase(productRepository);
 		const listWaypointsUseCase = new ListWaypointsUseCase(waypointRepository);
-		const listBrandSitesUseCase = new ListBrandSiteUseCase(brandSiteRepository);
+
+		const brandSiteListQuery = new BrandSiteListQuery(db);
+		const listBrandSitesUseCase = new ListBrandSiteUseCase(brandSiteListQuery);
 
 		return {
 			brandSiteCreateUseCase,
