@@ -25,19 +25,40 @@ export const getWaypointsFn = createServerFn({ method: "GET" }).handler(
 	},
 );
 
-export const getBrandSitesFn = createServerFn({ method: "GET" }).handler(
-	async () => {
+export const getBrandSitesFn = createServerFn({ method: "GET" })
+	.inputValidator((data?: {
+		cursor?: string;
+		limit?: number;
+		sortBy?: string;
+		sortOrder?: "asc" | "desc";
+		name?: string;
+		operational_status?: string;
+		type?: string;
+	}) => data)
+	.handler(
+	async ({ data }) => {
 		await ensureSession();
-		return await compositionRoot.listBrandSitesUseCase.execute();
+
+		const cursorIndex = data?.cursor ? parseInt(data.cursor, 10) : 0;
+		const startIndex = Number.isNaN(cursorIndex) ? 0 : cursorIndex;
+
+		const queryParams = {
+			...data,
+			cursor: startIndex,
+		};
+
+		return await compositionRoot.listBrandSitesUseCase.execute(queryParams);
 	},
 );
 
-export const runSimulationFn = createServerFn({ method: "POST" }).handler(
-	async ({ data }: { data: any }) => {
-		const payload = data as {
-			products: { id: string; quantity: number }[];
-			waypoints: { origin_id: string; destination_id: string };
-		};
+export const runSimulationFn = createServerFn({ method: "POST" })
+	.inputValidator((data: {
+		products: { id: string; quantity: number }[];
+		waypoints: { origin_id: string; destination_id: string };
+	}) => data)
+	.handler(
+	async ({ data }) => {
+		const payload = data;
 		await ensureSession();
 		return await compositionRoot.simulateLogisticsScenariosUseCase.execute({
 			products: payload.products,
