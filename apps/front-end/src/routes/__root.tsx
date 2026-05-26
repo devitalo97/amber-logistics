@@ -1,10 +1,20 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {
+	createRootRouteWithContext,
+	HeadContent,
+	Scripts,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TooltipProvider } from "#/components/ui/tooltip";
 import appCss from "../styles.css?url";
 
-export const Route = createRootRoute({
+interface RouterContext {
+	queryClient: QueryClient;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
 	head: () => ({
 		meta: [
 			{
@@ -35,24 +45,30 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	const { queryClient } = Route.useRouteContext();
+
 	return (
 		<html lang="en">
 			<head>
 				<HeadContent />
 			</head>
 			<body>
-				<TooltipProvider>{children}</TooltipProvider>
-				<TanStackDevtools
-					config={{
-						position: "bottom-right",
-					}}
-					plugins={[
-						{
-							name: "Tanstack Router",
-							render: <TanStackRouterDevtoolsPanel />,
-						},
-					]}
-				/>
+				<QueryClientProvider client={queryClient}>
+					<TooltipProvider>{children}</TooltipProvider>
+					<TanStackDevtools
+						config={{
+							position: "bottom-right",
+						}}
+						plugins={[
+							{
+								name: "Tanstack Router",
+								render: <TanStackRouterDevtoolsPanel />,
+							},
+						]}
+					/>
+					{/* Disable ReactQueryDevtools in production or if it errors */}
+					<ReactQueryDevtools position="bottom" buttonPosition="bottom-left" />
+				</QueryClientProvider>
 				<Scripts />
 			</body>
 		</html>
