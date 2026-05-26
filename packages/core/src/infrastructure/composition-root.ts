@@ -4,6 +4,7 @@ import { NominatimGeocodingGateway } from "@/adapter/gateway/nominatim-geocoding
 import { IdProvider } from "@/adapter/provider/id.provider";
 import { TimestampProvider } from "@/adapter/provider/timestamp.provider";
 import { BrandSiteListQuery } from "@/adapter/query/brand-site.list.query";
+import { QueryAll } from "@/adapter/query/query-all.query";
 import { BrandSiteRepository } from "@/adapter/repository/brand-site.repository";
 import { ProductRepository } from "@/adapter/repository/product.repository";
 import { UnitOfWork } from "@/adapter/repository/uow.repository";
@@ -18,7 +19,9 @@ import { ListProductsUseCase } from "@/application/use-case/product.list.use-cas
 import { SimulateLogisticsScenariosUseCase } from "@/application/use-case/simulate-logistics-scenarios.use-case";
 import { ListWaypointsUseCase } from "@/application/use-case/waypoint.list.use-case";
 import { WaypointSearchUseCase } from "@/application/use-case/waypoint.search.use-case";
-import type * as schemas from "./db/drizzle/schema";
+import type { ProductData } from "@/domain/product/product.entity";
+import type { WaypointData } from "@/domain/waypoint/waypoint.entity";
+import * as schemas from "./db/drizzle/schema";
 
 type Config = {
 	DATABASE_URL: string;
@@ -79,8 +82,17 @@ class CompositionRoot {
 				generateScenariosUseCase,
 			);
 
-		const listProductsUseCase = new ListProductsUseCase(productRepository);
-		const listWaypointsUseCase = new ListWaypointsUseCase(waypointRepository);
+		const listProductsQuery = new QueryAll<
+			typeof schemas.productTable,
+			ProductData
+		>(db, schemas.productTable);
+		const listWaypointsQuery = new QueryAll<
+			typeof schemas.waypointTable,
+			WaypointData
+		>(db, schemas.waypointTable);
+
+		const listProductsUseCase = new ListProductsUseCase(listProductsQuery);
+		const listWaypointsUseCase = new ListWaypointsUseCase(listWaypointsQuery);
 
 		const brandSiteListQuery = new BrandSiteListQuery(db);
 		const listBrandSitesUseCase = new ListBrandSiteUseCase(brandSiteListQuery);
