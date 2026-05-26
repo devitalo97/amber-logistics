@@ -67,18 +67,4 @@ export class BrandSiteRepository implements IBrandSiteRepository {
 			waypoint: waypoint || null,
 		})) as BrandSiteData[];
 	}
-
-	async findAll(): Promise<BrandSiteData[]> {
-		const rows = await this.db
-			.select({
-				brandSite: schema,
-				waypoint: waypointTable,
-			})
-			.from(schema)
-			.leftJoin(waypointTable, eq(schema.waypoint_id, waypointTable.id));
-		return rows.map(({ brandSite, waypoint }) => ({
-			...brandSite,
-			waypoint: waypoint || null,
-		})) as BrandSiteData[];
-	}
 }

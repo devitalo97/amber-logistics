@@ -45,9 +45,4 @@ export class WaypointRepository implements IWaypointRepository {
 
 		return rows as WaypointData[];
 	}
-
-	async findAll(): Promise<WaypointData[]> {
-		const rows = await this.db.select().from(schema);
-		return rows as WaypointData[];
-	}
 }
