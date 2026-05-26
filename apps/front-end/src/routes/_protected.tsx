@@ -1,10 +1,14 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { ProtectedLayout } from "#/components/layout/protected.layout";
 import { getSession } from "@/lib/auth.functions";
 
 export const Route = createFileRoute("/_protected")({
-	beforeLoad: async ({ location }) => {
-		const session = await getSession();
+	beforeLoad: async ({ location, context: { queryClient } }) => {
+		const session = await queryClient.fetchQuery({
+			queryKey: ["session"],
+			queryFn: getSession,
+			staleTime: 1000 * 60 * 5,
+		});
 
 		if (!session) {
 			throw redirect({
@@ -15,9 +19,5 @@ export const Route = createFileRoute("/_protected")({
 
 		return { user: session.user };
 	},
-	component: () => (
-		<ProtectedLayout>
-			<Outlet />
-		</ProtectedLayout>
-	),
+	component: ProtectedLayout,
 });
